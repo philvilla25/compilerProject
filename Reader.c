@@ -145,34 +145,56 @@ BufferPointer readerCreate(amber_intg size, amber_intg increment, amber_intg mod
 BufferPointer readerAddChar(BufferPointer const readerPointer, amber_char ch) {
 	amber_string tempReader = NULL;
 	amber_intg newSize = 0;
-	/* TO_DO: Defensive programming */
+	/* Defensive programming */
+	if (ch > NCHAR || ch < 0) {
+		readerPointer->numReaderErrors++;
+		return NULL;
+	}
+	if (!readerPointer) {
+		return NULL;
+	}
 	/* TO_DO: Reset Realocation */
 	/* TO_DO: Test the inclusion of chars */
 	if (readerPointer->position.wrte * (amber_intg)sizeof(amber_char) < readerPointer->size) {
-		/* TO_DO: This buffer is NOT full */
+		/* This buffer is NOT full */
+		readerPointer->content[readerPointer->position.wrte++] = ch;
+		readerPointer->histogram[ch]++;
+		return readerPointer;
 	} else {
 		/* TO_DO: Reset Full flag */
+		readerPointer->flags = readerPointer->flags | READER_FLAG_END;
 		switch (readerPointer->mode) {
 		case MODE_FIXED:
 			return NULL;
 		case MODE_ADDIT:
-			/* TO_DO: Adjust new size */
+			/* Adjust new size */
+			newSize = readerPointer->size + readerPointer->increment;
 			/* TO_DO: Defensive programming */
 			break;
 		case MODE_MULTI:
-			/* TO_DO: Adjust new size */
+			/* Adjust new size */
+			newSize = readerPointer->size * readerPointer->increment;
 			/* TO_DO: Defensive programming */
 			break;
 		default:
+			readerPointer->numReaderErrors++;
 			return NULL;
 		}
-		/* TO_DO: New reader allocation */
-		/* TO_DO: Defensive programming */
+		/* New reader allocation */
+		tempReader = (string)realloc(readerPointer->content, newSize);
+		/* Defensive programming */
+		if (!tempReader) {
+			readerPointer->numReaderErrors++;
+			return NULL;
+		}
 		/* TO_DO: Check Relocation */
+		readerPointer->content = tempReader;
+		readerPointer->size = newSize;
 	}
 	/* TO_DO: Add the char */
 	readerPointer->content[readerPointer->position.wrte++] = ch;
 	/* TO_DO: Updates histogram */
+	readerPointer->histogram[ch]++;
 	return readerPointer;
 }
 
@@ -492,7 +514,10 @@ amber_boln readerRestore(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_char readerGetChar(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
+	/* Defensive programming */
+	if (!readerPointer) {
+		return READER_ERROR;
+	}
 	/* TO_DO: Check condition to read/wrte */
 	/* TO_DO: Set EOB flag */
 	/* TO_DO: Reset EOB flag */
@@ -716,8 +741,15 @@ amber_byte readerGetFlags(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_void readerPrintStat(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Print the histogram */
+	/* Defensive programming */
+	if (!readerPointer) {
+		return;
+	}
+	/* Print the histogram */
+	printf("Histogram:\n");
+	for (int i = 0; i < NCHAR; i++) {
+		printf("Value %d: %d\n", i, readerPointer->histogram[i]);
+	}
 }
 
 /*
@@ -734,7 +766,10 @@ amber_void readerPrintStat(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_intg readerNumErrors(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Returns the number of errors */
-	return 0;
+	/* Defensive programming */
+	if (!readerPointer) {
+		return READER_ERROR;
+	}
+	/* Returns the number of errors */
+	return readerPointer->numReaderErrors;
 }
