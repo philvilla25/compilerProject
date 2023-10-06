@@ -79,7 +79,7 @@
 
 amber_intg main(int argc, char** argv) {
 	amber_intg i;
-	printLogo();
+	//printLogo();
 	if (DEBUG) {
 		for (i = 0; i < argc; ++i)
 			printf("argv[%d] = %s\n", i, argv[i]);
@@ -121,6 +121,7 @@ amber_intg main(int argc, char** argv) {
 *************************************************************
 */
 
+/*
 amber_void printLogo() {
 	printf("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
 		"\t=---------------------------------------=\n",
@@ -151,4 +152,6 @@ amber_void printLogo() {
 		"\t|                                       |\n",
 		"\t=---------------------------------------=\n"
 	);
+	
 }
+*/

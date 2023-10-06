@@ -1,7 +1,7 @@
 #************************************************************
 #* COMPILERS COURSE - Algonquin College
 #* Code version: Fall, 2023
-#* Author: TO_DO
+#* Author: Philogene Villanueva, Tasfia Khan Aohana
 #* Professors: Paulo Sousa
 #************************************************************
 #=---------------------------------------=
@@ -33,10 +33,10 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-project ("Compiler")
+project ("Compiler.exe")
 
 # Add source to this project's executable: check name and dependences
-add_executable (Compiler
+add_executable (Compiler.exe
 	"Compilers.h"	"Compilers.c"
 	"Reader.h"		"Reader.c"		"MainReader.c"
 	#"Scanner.h"		"Scanner.c"		"MainScanner.c"

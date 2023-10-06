@@ -268,10 +268,10 @@ amber_boln readerIsFull(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 
 	if(!readerPointer){
-		return NULL;
+		return READER_ERROR;
 	}
 	/* TO_DO: Check flag if buffer is FUL */
-	if(readerPointer == READER_FLAG_END){
+	else if(readerPointer->flags & READER_FLAG_FUL){
 		return AMBER_TRUE;
 	}
 
@@ -297,12 +297,18 @@ amber_boln readerIsEmpty(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 
 	if(!readerPointer){
-		return NULL;
+		return READER_ERROR;
 	}
+	else if (readerPointer->flags & READER_FLAG_EMP) {
 
-	if(readerPointer == READER_FLAG_EMP){
-		return AMBER_TRUE;
-	}
+        return AMBER_TRUE;
+
+    }
+    else {
+
+        return AMBER_FALSE;
+
+    }
 
 	/* TO_DO: Check flag if buffer is EMP */
 	return AMBER_FALSE;
@@ -725,7 +731,6 @@ amber_byte readerGetFlags(BufferPointer const readerPointer) {
     /* Return the entire flags from Buffer */
     return readerPointer->flags;
 }
-
 
 
 /*
