@@ -181,7 +181,7 @@ BufferPointer readerAddChar(BufferPointer const readerPointer, amber_char ch) {
 			return NULL;
 		}
 		/* New reader allocation */
-		tempReader = (string)realloc(readerPointer->content, newSize);
+		tempReader = (amber_string)realloc(readerPointer->content, newSize);
 		/* Defensive programming */
 		if (!tempReader) {
 			readerPointer->numReaderErrors++;
