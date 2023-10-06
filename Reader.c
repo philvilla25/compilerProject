@@ -466,10 +466,14 @@ amber_boln readerRetract(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_boln readerRestore(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Restore positions (read/mark) */
-	readerPointer->position.read = readerPointer->position.mark;
-	return AMBER_TRUE;
+	if (readerPointer == NULL) {
+        /* Check if readerPointer is NULL, return an error */
+        return AMBER_FALSE;
+    }
+
+    /* Set the read position to the mark position */
+    readerPointer->position.read = readerPointer->position.mark;
+    return AMBER_TRUE;
 }
 
 
@@ -514,9 +518,13 @@ amber_char readerGetChar(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_string readerGetContent(BufferPointer const readerPointer, amber_intg pos) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return content (string) */
-	return readerPointer->content + pos;;
+	if (readerPointer == NULL || pos < 0 || pos >= readerPointer->position.wrte) {
+        /* Check if readerPointer is NULL or if pos is out of bounds, return NULL */
+        return NULL;
+    }
+
+    /* Return the pointer to the specified position in the content */
+    return readerPointer->content + pos;
 }
 
 
@@ -537,6 +545,10 @@ amber_string readerGetContent(BufferPointer const readerPointer, amber_intg pos)
 */
 amber_intg readerGetPosRead(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
+	if(readerPointer == NULL){
+		return READER_ERROR;
+	}
+
 	/* TO_DO: Return read */
 	return readerPointer->position.read;
 }
@@ -557,9 +569,13 @@ amber_intg readerGetPosRead(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_intg readerGetPosWrte(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
+	 if (readerPointer == NULL) {
+        /* Check if readerPointer is NULL, return an error value (e.g., -1) */
+        return READER_ERROR;
+    }
+	
 	/* TO_DO: Return wrte */
-	return 0;
+	 return readerPointer->position.wrte;
 }
 
 
@@ -578,9 +594,13 @@ amber_intg readerGetPosWrte(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_intg readerGetPosMark(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return mark */
-	return 0;
+ 	if (readerPointer == NULL) {
+        /* Check if readerPointer is NULL, return an error value (e.g., -1) */
+        return READER_ERROR;
+    }
+
+    /* Return the mark position */
+    return readerPointer->position.mark;
 }
 
 
@@ -599,9 +619,13 @@ amber_intg readerGetPosMark(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_intg readerGetSize(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return size */
-	return 0;
+	if (readerPointer == NULL) {
+        /* Check if readerPointer is NULL, return an error value (e.g., -1) */
+        return READER_ERROR;
+    }
+
+    /* Return the current buffer capacity (size) */
+    return readerPointer->size;
 }
 
 /*
@@ -619,9 +643,13 @@ amber_intg readerGetSize(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_intg readerGetInc(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return increment */
-	return 0;
+	 if (readerPointer == NULL) {
+        /* Check if readerPointer is NULL, return an error value (e.g., -1) */
+        return READER_ERROR;
+    }
+
+    /* Return the buffer increment */
+    return readerPointer->increment;
 }
 
 /*
@@ -639,9 +667,13 @@ amber_intg readerGetInc(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_intg readerGetMode(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return mode */
-	return 0;
+	 if (readerPointer == NULL) {
+        /* Check if readerPointer is NULL, return an error value (e.g., -1) */
+        return READER_ERROR;
+    }
+
+    /* Return the operational mode */
+    return readerPointer->mode;
 }
 
 
@@ -660,9 +692,13 @@ amber_intg readerGetMode(BufferPointer const readerPointer) {
 *************************************************************
 */
 amber_byte readerGetFlags(BufferPointer const readerPointer) {
-	/* TO_DO: Defensive programming */
-	/* TO_DO: Return flags */
-	return 0;
+	if (readerPointer == NULL) {
+        /* Check if readerPointer is NULL, return an error value (e.g., 0) */
+        return 0;
+    }
+
+    /* Return the entire flags from Buffer */
+    return readerPointer->flags;
 }
 
 
