@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2023
-* Author: Philogene Villanueva, Tasfia Khan Aohana
+* Author: TO_DO
 * Professors: Paulo Sousa
 ************************************************************
 =---------------------------------------=
@@ -25,11 +25,13 @@
 |         ^~~!.^7YPPPP5Y?7J7777~.       |
 |        ..:~..:^!JPP5YJ?!777!^.        |
 | .~?JJJJJJJJJJYYYYYPPPPPPPPPPPP5PPYY~  |
-|     A   M   M   BBBBB    EEEEE  RRRR  |
-|    / \  MM MM  B     B  E      R   R  |
-|   |   | M M M  BBBBB    EEEE   RRRR   |
-|   |   | M   M  B     B  E      R  R   |
-|   |   | M   M   BBBBB    EEEEE  R   R |
+|  :!Y5GGG.___ YYYYYY__._.PPGGGGGG5!.   |
+|   :!Y5G / __| ___ / _(_)__ _ PGP5.    |
+|    :~75 \__ \/ _ \  _| / _` | 5?.     |
+|     7~7 |___/\___/_| |_\__,_| Y5?.    |
+|    .^~!~.....................P5YY7.   |
+|   .:::::::::::::?JJJJYYYYYYYYYJJJJ7.  |
+|                                       |
 =---------------------------------------=
 */
 
@@ -37,7 +39,7 @@
 ***********************************************************
 * File name: Reader.c
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012, 013]
+* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
 * Assignment: A12.
 * Date: May 01 2023
 * Professor: Paulo Sousa
@@ -66,7 +68,7 @@
 * Function name: readerCreate
 * Purpose: Creates the buffer reader according to capacity, increment
 	factor and operational mode ('f', 'a', 'm')
-* Author: Philogene Villanueva, Tasfia Khan Aohana
+* Author: Svillen Ranev / Paulo Sousa
 * History/Versions: S22
 * Called functions: calloc(), malloc()
 * Parameters:
@@ -83,40 +85,22 @@
 *************************************************************
 */
 
-BufferPointer readerCreate(amber_intg size, amber_intg increment, amber_intg mode) {
+BufferPointer readerCreate(sofia_intg size, sofia_intg increment, sofia_intg mode) {
 	BufferPointer readerPointer;
 	/* TO_DO: Defensive programming */
-
-	if(size != 0 || size <= 0){	
-		size = READER_DEFAULT_SIZE;
-	}
-
-	if(!increment){
-		increment = READER_DEFAULT_INCREMENT;
-	}
-
 	/* TO_DO: Adjust the values according to parameters */
-
 	readerPointer = (BufferPointer)calloc(1, sizeof(Buffer));
 	if (!readerPointer)
 		return NULL;
-	readerPointer->content = (amber_string)malloc(size);
-	
+	readerPointer->content = (sofia_string)malloc(size);
 	/* TO_DO: Defensive programming */
-	if (mode != 'f' && mode != 'a' && mode != 'm') {
-		mode = 'f';
-	}
-
 	/* TO_DO: Initialize the histogram */
 	readerPointer->size = size;
 	readerPointer->increment = increment;
 	readerPointer->mode = mode;
-	
 	/* TO_DO: Initialize flags */
-	// Question for Prof
 	/* TO_DO: The created flag must be signalized as EMP */
 	/* NEW: Cleaning the content */
-
 	if (readerPointer->content)
 		readerPointer->content[0] = READER_TERMINATOR;
 	readerPointer->position.wrte = 0;
@@ -142,13 +126,13 @@ BufferPointer readerCreate(amber_intg size, amber_intg increment, amber_intg mod
 *************************************************************
 */
 
-BufferPointer readerAddChar(BufferPointer const readerPointer, amber_char ch) {
-	amber_string tempReader = NULL;
-	amber_intg newSize = 0;
+BufferPointer readerAddChar(BufferPointer const readerPointer, sofia_char ch) {
+	sofia_string tempReader = NULL;
+	sofia_intg newSize = 0;
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Reset Realocation */
 	/* TO_DO: Test the inclusion of chars */
-	if (readerPointer->position.wrte * (amber_intg)sizeof(amber_char) < readerPointer->size) {
+	if (readerPointer->position.wrte * (sofia_intg)sizeof(sofia_char) < readerPointer->size) {
 		/* TO_DO: This buffer is NOT full */
 	} else {
 		/* TO_DO: Reset Full flag */
@@ -190,16 +174,11 @@ BufferPointer readerAddChar(BufferPointer const readerPointer, amber_char ch) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_boln readerClear(BufferPointer const readerPointer) {
+sofia_boln readerClear(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-	if(!readerPointer){
-		return AMBER_FALSE;
-	}
-
-	//Ask Prof tom
 	/* TO_DO: Adjust flags original */
 	readerPointer->position.wrte = readerPointer->position.mark = readerPointer->position.read = 0;
-	return AMBER_TRUE;
+	return SOFIA_TRUE;
 }
 
 /*
@@ -216,16 +195,10 @@ amber_boln readerClear(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_boln readerFree(BufferPointer const readerPointer) {
+sofia_boln readerFree(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-
-	if(!readerPointer){
-		return AMBER_FALSE;
-	}
 	/* TO_DO: Free pointers */
-	free(readerPointer);
-
-	return AMBER_TRUE;
+	return SOFIA_TRUE;
 }
 
 /*
@@ -242,18 +215,10 @@ amber_boln readerFree(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_boln readerIsFull(BufferPointer const readerPointer) {
+sofia_boln readerIsFull(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-
-	if(!readerPointer){
-		return NULL;
-	}
 	/* TO_DO: Check flag if buffer is FUL */
-	if(readerPointer == READER_FLAG_END){
-		return AMBER_TRUE;
-	}
-
-	return AMBER_FALSE;
+	return SOFIA_FALSE;
 }
 
 
@@ -271,19 +236,10 @@ amber_boln readerIsFull(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_boln readerIsEmpty(BufferPointer const readerPointer) {
+sofia_boln readerIsEmpty(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
-
-	if(!readerPointer){
-		return NULL;
-	}
-
-	if(readerPointer == READER_FLAG_EMP){
-		return AMBER_TRUE;
-	}
-
 	/* TO_DO: Check flag if buffer is EMP */
-	return AMBER_FALSE;
+	return SOFIA_FALSE;
 }
 
 /*
@@ -301,21 +257,11 @@ amber_boln readerIsEmpty(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_boln readerSetMark(BufferPointer const readerPointer, amber_intg mark) {
-	
-	if (readerPointer == NULL) {
-        /* Check if readerPointer is NULL, return an error */
-        return AMBER_FALSE;
-    }
-
-    if (mark < 0 || mark > readerPointer->position.wrte) {
-        /* Check if mark is out of bounds, return an error */
-        return AMBER_FALSE;
-    }
-
-    /* Set the mark position to the specified value */
-    readerPointer->position.mark = mark;
-    return AMBER_TRUE;
+sofia_boln readerSetMark(BufferPointer const readerPointer, sofia_intg mark) {
+	/* TO_DO: Defensive programming */
+	/* TO_DO: Adjust mark */
+	readerPointer->position.mark = mark;
+	return SOFIA_TRUE;
 }
 
 
@@ -333,9 +279,9 @@ amber_boln readerSetMark(BufferPointer const readerPointer, amber_intg mark) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerPrint(BufferPointer const readerPointer) {
-	amber_intg cont = 0;
-	amber_char c;
+sofia_intg readerPrint(BufferPointer const readerPointer) {
+	sofia_intg cont = 0;
+	sofia_char c;
 	/* TO_DO: Defensive programming (including invalid chars) */
 	c = readerGetChar(readerPointer);
 	/* TO_DO: Check flag if buffer EOB has achieved */
@@ -363,34 +309,21 @@ amber_intg readerPrint(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerLoad(BufferPointer const readerPointer, FILE* const fileDescriptor) {
-	
-	  if (readerPointer == NULL || fileDescriptor == NULL) {
-        /* Check if readerPointer or fileDescriptor is NULL, return an error */
-        return READER_ERROR;
-    }
-
-    amber_intg size = 0;
-    amber_char c;
-
-    c = (amber_char)fgetc(fileDescriptor);
-    while (!feof(fileDescriptor)) {
-        if (!readerAddChar(readerPointer, c)) {
-            ungetc(c, fileDescriptor);
-            return READER_ERROR;
-        }
-        c = (amber_char)fgetc(fileDescriptor);
-        size++;
-
-        /* Check if the buffer is full */
-        if (readerIsFull(readerPointer)) {
-            /* Return the current size if the buffer is full */
-            return size;
-        }
-    }
-
-    /* Return the total number of characters read and put in the buffer */
-    return size;
+sofia_intg readerLoad(BufferPointer const readerPointer, FILE* const fileDescriptor) {
+	sofia_intg size = 0;
+	sofia_char c;
+	/* TO_DO: Defensive programming */
+	c = (sofia_char)fgetc(fileDescriptor);
+	while (!feof(fileDescriptor)) {
+		if (!readerAddChar(readerPointer, c)) {
+			ungetc(c, fileDescriptor);
+			return READER_ERROR;
+		}
+		c = (char)fgetc(fileDescriptor);
+		size++;
+	}
+	/* TO_DO: Defensive programming */
+	return size;
 }
 
 
@@ -408,15 +341,11 @@ amber_intg readerLoad(BufferPointer const readerPointer, FILE* const fileDescrip
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_boln readerRecover(BufferPointer const readerPointer) {
-	   if (readerPointer == NULL) {
-        /* Check if readerPointer is NULL, return an error */
-        return AMBER_FALSE;
-    }
-
-    /* Reset the read position to 0 */
-    readerPointer->position.read = 0;
-	return AMBER_TRUE;
+sofia_boln readerRecover(BufferPointer const readerPointer) {
+	/* TO_DO: Defensive programming */
+	/* TO_DO: Recover positions */
+	readerPointer->position.read = 0;
+	return SOFIA_TRUE;
 }
 
 
@@ -434,20 +363,10 @@ amber_boln readerRecover(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_boln readerRetract(BufferPointer const readerPointer) {
-	if (readerPointer == NULL) {
-        /* Check if readerPointer is NULL, return an error */
-        return AMBER_FALSE;
-    }
-
-    if (readerPointer->position.read > 0) {
-        /* Retract (move back 1 position in read) */
-        readerPointer->position.read--;
-        return AMBER_TRUE;
-    }
-
-    /* Return false if already at the beginning of the buffer */
-    return AMBER_FALSE;
+sofia_boln readerRetract(BufferPointer const readerPointer) {
+	/* TO_DO: Defensive programming */
+	/* TO_DO: Retract (return 1 pos read) */
+	return SOFIA_TRUE;
 }
 
 
@@ -465,11 +384,11 @@ amber_boln readerRetract(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_boln readerRestore(BufferPointer const readerPointer) {
+sofia_boln readerRestore(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Restore positions (read/mark) */
 	readerPointer->position.read = readerPointer->position.mark;
-	return AMBER_TRUE;
+	return SOFIA_TRUE;
 }
 
 
@@ -487,7 +406,7 @@ amber_boln readerRestore(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_char readerGetChar(BufferPointer const readerPointer) {
+sofia_char readerGetChar(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Check condition to read/wrte */
 	/* TO_DO: Set EOB flag */
@@ -513,7 +432,7 @@ amber_char readerGetChar(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_string readerGetContent(BufferPointer const readerPointer, amber_intg pos) {
+sofia_string readerGetContent(BufferPointer const readerPointer, sofia_intg pos) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return content (string) */
 	return readerPointer->content + pos;;
@@ -535,7 +454,7 @@ amber_string readerGetContent(BufferPointer const readerPointer, amber_intg pos)
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerGetPosRead(BufferPointer const readerPointer) {
+sofia_intg readerGetPosRead(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return read */
 	return readerPointer->position.read;
@@ -556,7 +475,7 @@ amber_intg readerGetPosRead(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerGetPosWrte(BufferPointer const readerPointer) {
+sofia_intg readerGetPosWrte(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return wrte */
 	return 0;
@@ -577,7 +496,7 @@ amber_intg readerGetPosWrte(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerGetPosMark(BufferPointer const readerPointer) {
+sofia_intg readerGetPosMark(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return mark */
 	return 0;
@@ -598,7 +517,7 @@ amber_intg readerGetPosMark(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerGetSize(BufferPointer const readerPointer) {
+sofia_intg readerGetSize(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return size */
 	return 0;
@@ -618,7 +537,7 @@ amber_intg readerGetSize(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerGetInc(BufferPointer const readerPointer) {
+sofia_intg readerGetInc(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return increment */
 	return 0;
@@ -638,7 +557,7 @@ amber_intg readerGetInc(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerGetMode(BufferPointer const readerPointer) {
+sofia_intg readerGetMode(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return mode */
 	return 0;
@@ -659,7 +578,7 @@ amber_intg readerGetMode(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_byte readerGetFlags(BufferPointer const readerPointer) {
+sofia_byte readerGetFlags(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Return flags */
 	return 0;
@@ -679,7 +598,7 @@ amber_byte readerGetFlags(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_void readerPrintStat(BufferPointer const readerPointer) {
+sofia_void readerPrintStat(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Print the histogram */
 }
@@ -697,7 +616,7 @@ amber_void readerPrintStat(BufferPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-amber_intg readerNumErrors(BufferPointer const readerPointer) {
+sofia_intg readerNumErrors(BufferPointer const readerPointer) {
 	/* TO_DO: Defensive programming */
 	/* TO_DO: Returns the number of errors */
 	return 0;

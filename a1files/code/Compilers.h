@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2023
-* Author: Philogene Villanueva, Tasfia Khan Aohana
+* Author: TO_DO
 * Professors: Paulo Sousa
 ************************************************************
 =---------------------------------------=
@@ -25,11 +25,13 @@
 |         ^~~!.^7YPPPP5Y?7J7777~.       |
 |        ..:~..:^!JPP5YJ?!777!^.        |
 | .~?JJJJJJJJJJYYYYYPPPPPPPPPPPP5PPYY~  |
-|     A   M   M   BBBBB    EEEEE  RRRR  |
-|    / \  MM MM  B     B  E      R   R  |
-|   |   | M M M  BBBBB    EEEE   RRRR   |
-|   |   | M   M  B     B  E      R  R   |
-|   |   | M   M   BBBBB    EEEEE  R   R |
+|  :!Y5GGG.___ YYYYYY__._.PPGGGGGG5!.   |
+|   :!Y5G / __| ___ / _(_)__ _ PGP5.    |
+|    :~75 \__ \/ _ \  _| / _` | 5?.     |
+|     7~7 |___/\___/_| |_\__,_| Y5?.    |
+|    .^~!~.....................P5YY7.   |
+|   .:::::::::::::?JJJJYYYYYYYYYJJJJ7.  |
+|                                       |
 =---------------------------------------=
 */
 
@@ -37,7 +39,7 @@
 ************************************************************
 * File name: Compilers.h
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012]
+* Course: CST 8152 – Compilers, Lab Section: [011, 012]
 * Assignment: A12, A22, A32.
 * Date: May 01 2023
 * Professor: Paulo Sousa
@@ -60,13 +62,14 @@
  * ............................................................................
  */
 
+/* TO_DO: Adjust your language (cannot be "Sofia") */
 
 /* Language name */
-#define STR_LANGNAME	"Amber"
+#define STR_LANGNAME	"Sofia"
 
 /* Logical constants - adapt for your language */
-#define AMBER_TRUE  1
-#define AMBER_FALSE 0
+#define SOFIA_TRUE  1
+#define SOFIA_FALSE 0
 
 /*
 ------------------------------------------------------------
@@ -77,17 +80,18 @@ NOTE: Some types may not be directly used by your language,
 */
 
 
-typedef char			amber_char;
-typedef char*           amber_string;
-typedef int				amber_intg;
-typedef float			amber_real;
-typedef void			amber_void;
+/* TO_DO: Define your typedefs */
+typedef char			sofia_char;
+typedef char* sofia_string;
+typedef int				sofia_intg;
+typedef float			sofia_real;
+typedef void			sofia_void;
 
-typedef unsigned char	amber_boln;
-typedef unsigned char	amber_byte;
+typedef unsigned char	sofia_boln;
+typedef unsigned char	sofia_byte;
 
-typedef long			amber_long;
-typedef double			amber_doub;
+typedef long			sofia_long;
+typedef double			sofia_doub;
 
 /*
 ------------------------------------------------------------
@@ -98,9 +102,9 @@ Programs:
 ------------------------------------------------------------
 */
 enum PROGRAMS {
-	PGM_READER	= 'a',
-	PGM_SCANNER = 'm',
-	PGM_PARSER	= 'b'
+	PGM_READER	= 'r',
+	PGM_SCANNER = 's',
+	PGM_PARSER	= 'p'
 };
 
 /*
@@ -109,11 +113,11 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-amber_intg mainReader(amber_intg argc, amber_string* argv);
+sofia_intg mainReader(sofia_intg argc, sofia_string* argv);
 
 /* 
 TO_DO: Include later mainScaner (A22) and mainParser (A32)
 */
-amber_void printLogo();
+sofia_void printLogo();
 
 #endif

@@ -81,7 +81,7 @@ enum READER_MODE {
 #define READER_ERROR		(-1)						/* General error message */
 #define READER_TERMINATOR	'\0'							/* General EOF */
 
-/* CONSTANTS DEFINITION: PREFIXED BY LANGUAGE NAME (amber) .................................. */
+/* CONSTANTS DEFINITION: PREFIXED BY LANGUAGE NAME (SOFIA) .................................. */
 
 /* You should add your own constant definitions here */
 #define READER_MAX_SIZE	INT_MAX-1	/* maximum capacity */ 
@@ -93,65 +93,62 @@ enum READER_MODE {
 /* BITS                                (7654.3210) */
 #define READER_DEFAULT_FLAG 0x00 	/* (0000.0000)_2 = (000)_10 */
 /* TO_DO: BIT 3: END = End of buffer flag */
-#define READER_FLAG_END 0b00000011
 /* TO_DO: BIT 2: REL = Rellocation memory flag */
-#define READER_FLAG_REL 0b00000010
 /* TO_DO: BIT 1: EMP = Buffer empty flag */
-#define READER_FLAG_EMP 0b00000001
 /* TO_DO: BIT 0: FUL = Buffer full flag */
 
 #define NCHAR				128			/* Chars from 0 to 127 */
 
 #define CHARSEOF			(-1)		/* EOF Code for Reader */
 
-/* STRUCTURES DEFINITION: SUFIXED BY LANGUAGE NAME (AMBER) .................................. */
+/* STRUCTURES DEFINITION: SUFIXED BY LANGUAGE NAME (SOFIA) .................................. */
 
 /* TODO: Adjust datatypes */
 
 /* Offset declaration */
 typedef struct position {
-	amber_intg mark;			/* the offset to the mark position (in chars) */
-	amber_intg read;			/* the offset to the get a char position (in chars) */
-	amber_intg wrte;			/* the offset to the add chars (in chars) */
+	sofia_intg mark;			/* the offset to the mark position (in chars) */
+	sofia_intg read;			/* the offset to the get a char position (in chars) */
+	sofia_intg wrte;			/* the offset to the add chars (in chars) */
 } Position;
 
 /* Buffer structure */
 typedef struct bufferReader {
-	amber_string	content;			/* pointer to the beginning of character array (character buffer) */
-	amber_intg		size;				/* current dynamic memory size (in bytes) allocated to character buffer */
-	amber_intg		increment;			/* character array increment factor */
-	amber_intg		mode;				/* operational mode indicator */
-	amber_byte		flags;				/* contains character array reallocation flag and end-of-buffer flag */
+	sofia_string	content;			/* pointer to the beginning of character array (character buffer) */
+	sofia_intg		size;				/* current dynamic memory size (in bytes) allocated to character buffer */
+	sofia_intg		increment;			/* character array increment factor */
+	sofia_intg		mode;				/* operational mode indicator */
+	sofia_byte		flags;				/* contains character array reallocation flag and end-of-buffer flag */
 	Position		position;				/* Offset / position field */
-	amber_intg		histogram[NCHAR];	/* Statistics of chars */
-	amber_intg		numReaderErrors;	/* Number of errors from Reader */
+	sofia_intg		histogram[NCHAR];	/* Statistics of chars */
+	sofia_intg		numReaderErrors;	/* Number of errors from Reader */
 } Buffer, *BufferPointer;
 
 /* FUNCTIONS DECLARATION:  .................................. */
 /* General Operations */
-BufferPointer	readerCreate		(amber_intg, amber_intg, amber_intg);
-BufferPointer	readerAddChar		(BufferPointer const, amber_char);
-amber_boln		readerClear		    (BufferPointer const);
-amber_boln		readerFree		    (BufferPointer const);
-amber_boln		readerIsFull		(BufferPointer const);
-amber_boln		readerIsEmpty		(BufferPointer const);
-amber_boln		readerSetMark		(BufferPointer const, amber_intg);
-amber_intg		readerPrint		    (BufferPointer const);
-amber_intg		readerLoad			(BufferPointer const, FILE* const);
-amber_boln		readerRecover		(BufferPointer const);
-amber_boln		readerRetract		(BufferPointer const);
-amber_boln		readerRestore		(BufferPointer const);
+BufferPointer	readerCreate		(sofia_intg, sofia_intg, sofia_intg);
+BufferPointer	readerAddChar		(BufferPointer const, sofia_char);
+sofia_boln		readerClear		    (BufferPointer const);
+sofia_boln		readerFree		    (BufferPointer const);
+sofia_boln		readerIsFull		(BufferPointer const);
+sofia_boln		readerIsEmpty		(BufferPointer const);
+sofia_boln		readerSetMark		(BufferPointer const, sofia_intg);
+sofia_intg		readerPrint		    (BufferPointer const);
+sofia_intg		readerLoad			(BufferPointer const, FILE* const);
+sofia_boln		readerRecover		(BufferPointer const);
+sofia_boln		readerRetract		(BufferPointer const);
+sofia_boln		readerRestore		(BufferPointer const);
 /* Getters */
-amber_char		readerGetChar		(BufferPointer const);
-amber_string	readerGetContent	(BufferPointer const, amber_intg);
-amber_intg		readerGetPosRead	(BufferPointer const);
-amber_intg		readerGetPosWrte	(BufferPointer const);
-amber_intg		readerGetPosMark	(BufferPointer const);
-amber_intg		readerGetSize		(BufferPointer const);
-amber_intg		readerGetInc		(BufferPointer const);
-amber_intg		readerGetMode		(BufferPointer const);
-amber_byte		readerGetFlags		(BufferPointer const);
-amber_void		readerPrintStat		(BufferPointer const);
-amber_intg		readerNumErrors		(BufferPointer const);
+sofia_char		readerGetChar		(BufferPointer const);
+sofia_string	readerGetContent	(BufferPointer const, sofia_intg);
+sofia_intg		readerGetPosRead	(BufferPointer const);
+sofia_intg		readerGetPosWrte	(BufferPointer const);
+sofia_intg		readerGetPosMark	(BufferPointer const);
+sofia_intg		readerGetSize		(BufferPointer const);
+sofia_intg		readerGetInc		(BufferPointer const);
+sofia_intg		readerGetMode		(BufferPointer const);
+sofia_byte		readerGetFlags		(BufferPointer const);
+sofia_void		readerPrintStat		(BufferPointer const);
+sofia_intg		readerNumErrors		(BufferPointer const);
 
 #endif

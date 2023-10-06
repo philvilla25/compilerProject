@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2023
-* Author: Philogene Villanueva, Tasfia Khan Aohana
+* Author: TO_DO
 * Professors: Paulo Sousa
 ************************************************************
 =---------------------------------------=
@@ -25,11 +25,13 @@
 |         ^~~!.^7YPPPP5Y?7J7777~.       |
 |        ..:~..:^!JPP5YJ?!777!^.        |
 | .~?JJJJJJJJJJYYYYYPPPPPPPPPPPP5PPYY~  |
-|     A   M   M   BBBBB    EEEEE  RRRR  |
-|    / \  MM MM  B     B  E      R   R  |
-|   |   | M M M  BBBBB    EEEE   RRRR   |
-|   |   | M   M  B     B  E      R  R   |
-|   |   | M   M   BBBBB    EEEEE  R   R |
+|  :!Y5GGG.___ YYYYYY__._.PPGGGGGG5!.   |
+|   :!Y5G / __| ___ / _(_)__ _ PGP5.    |
+|    :~75 \__ \/ _ \  _| / _` | 5?.     |
+|     7~7 |___/\___/_| |_\__,_| Y5?.    |
+|    .^~!~.....................P5YY7.   |
+|   .:::::::::::::?JJJJYYYYYYYYYJJJJ7.  |
+|                                       |
 =---------------------------------------=
 */
 
@@ -73,12 +75,12 @@
 * Called functions: mainReader(), mainScanner(), mainParser()
 * Parameters: Command line arguments - argc, argv
 * Return value: Status
-* Algorithm: - 
+* Algorithm: -
 *************************************************************
 */
 
-amber_intg main(int argc, char** argv) {
-	amber_intg i;
+sofia_intg main(int argc, char** argv) {
+	sofia_intg i;
 	printLogo();
 	if (DEBUG) {
 		for (i = 0; i < argc; ++i)
@@ -91,7 +93,7 @@ amber_intg main(int argc, char** argv) {
 			PGM_PARSER, "] - Parser\n");
 		return EXIT_FAILURE;
 	}
-	amber_char option = argv[1][0];
+	sofia_char option = argv[1][0];
 	switch (option) {
 	case PGM_READER:
 		printf("%s%c%s", "\n[Option '", PGM_READER, "': Starting READER .....]\n\n");
@@ -121,7 +123,9 @@ amber_intg main(int argc, char** argv) {
 *************************************************************
 */
 
-amber_void printLogo() {
+/* TO_DO: Update your logo with your own language message */
+
+sofia_void printLogo() {
 	printf("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
 		"\t=---------------------------------------=\n",
 		"\t|  COMPILERS - ALGONQUIN COLLEGE (F23)  |\n",
@@ -143,11 +147,12 @@ amber_void printLogo() {
 		"\t|         ^~~!.^7YPPPP5Y?7J7777~.       |\n",
 		"\t|        ..:~..:^!JPP5YJ?!777!^.        |\n",
 		"\t| .~?JJJJJJJJJJYYYYYPPPPPPPPPPPP5PPYY~  |\n",
-		"\t|     A   M   M   BBBBB    EEEEE  RRRR  |\n",
-        "\t|    / \  MM MM  B     B  E      R   R  |\n",
-        "\t|   |   | M M M  BBBBB    EEEE   RRRR   |\n",
-        "\t|   |   | M   M  B     B  E      R  R   |\n",
-        "\t|   |   | M   M   BBBBB    EEEEE  R   R |\n",
+		"\t|  :!Y5GGG.___ YYYYYY__._.PPGGGGGG5!.   |\n",
+		"\t|   :!Y5G / __| ___ / _(_)__ _ PGP5.    |\n",
+		"\t|    :~75 \\__ \\/ _ \\  _| / _` | 5?.     |\n",
+		"\t|     7~7 |___/\\___/_| |_\\__,_| Y5?.    |\n",
+		"\t|    .^~!~.....................P5YY7.   |\n",
+		"\t|   .:::::::::::::?JJJJYYYYYYYYYJJJJ7.  |\n",
 		"\t|                                       |\n",
 		"\t=---------------------------------------=\n"
 	);
