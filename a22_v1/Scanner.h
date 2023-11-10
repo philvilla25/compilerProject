@@ -88,7 +88,8 @@ enum TOKENS {
 	EOS_T,		/*  9: End of statement (semicolon) */
 	RTE_T,		/* 10: Run-time error token */
 	SEOF_T,		/* 11: Source end-of-file token */
-	CMT_T		/* 12: Comment token */
+	CMT_T,		/* 12: Comment token */
+	STAR_T		/* 13. Star for comment*/
 };
 
 /* TO_DO: Define the list of keywords */
@@ -106,6 +107,7 @@ static string tokenStrTable[NUM_TOKENS] = {
 	"RTE_T",
 	"SEOF_T",
 	"CMT_T"
+	"STAR_T"
 };
 
 /* TO_DO: Operators token attributes */
@@ -162,10 +164,13 @@ typedef struct scannerData {
 
 /* TO_DO: Define lexeme FIXED classes */
 /* These constants will be used on nextClass */
-#define CHRCOL2 '_'
-#define CHRCOL3 '&'
-#define CHRCOL4 '\''
-#define CHRCOL6 '#'
+//#define CHRCOL2 '_'
+#define CHRCOL2 '*'
+//#define CHRCOL3 '&'
+#define CHRCOL3 '.'
+#define CHRCOL4 '"'
+#define CHRCOL6 '\\'
+//#define CHRCOL7 ''
 
 /* These constants will be used on VID / MID function */
 #define MNID_SUF '&'
@@ -182,18 +187,18 @@ typedef struct scannerData {
 
 /* TO_DO: Transition table - type of states defined in separate table */
 static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
-/*    [A-z],[0-9],    _,    &,   \', SEOF,    #, other
-	   L(0), D(1), U(2), M(3), Q(4), E(5), C(6),  O(7) */
-	{     1, ESNR, ESNR, ESNR,    4, ESWR,	  6, ESNR},	// S0: NOAS
-	{     1,    1,    1,    2,	  3,    3,   3,    3},	// S1: NOAS
-	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS},	// S2: ASNR (MVID)
-	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS},	// S3: ASWR (KEY)
-	{     4,    4,    4,    4,    5, ESWR,	  4,    4},	// S4: NOAS
-	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS},	// S5: ASNR (SL)
-	{     6,    6,    6,    6,    6, ESWR,	  7,    6},	// S6: NOAS
+/*    [A-z],[0-9],    /,    *,   ., /', other
+	   L(0), D(1), S(2), T(3), P(4), Q(5), O(6) */
+	{     1, ESNR, 6,    ESNR, ESWR,	  4, ESNR},	// S0: NOAS
+	{     1,    3,    1,    ESNR,	  1,    1,   2},	// S1: NOAS
+	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},	// S2: ASNR (MVID)
+	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},	// S3: ASWR (KEY)
+	{     4,    4,    4,    4,    4, 5,	  4},	// S4: NOAS
+	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},	// S5: ASNR (SL)
+	{     6,    6,    7,    6,    6, 6,	  6},	// S6: NOAS
 	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS},	// S7: ASNR (COM)
-	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS},	// S8: ASNR (ES)
-	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS}  // S9: ASWR (ER)
+//	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS},	// S8: ASNR (ES)
+//	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS}  // S9: ASWR (ER)
 };
 
 /* Define accepting states types */
@@ -271,20 +276,23 @@ Language keywords
 */
 
 /* TO_DO: Define the number of Keywords from the language */
-#define KWT_SIZE 10
+#define KWT_SIZE 12
 
 /* TO_DO: Define the list of keywords */
 static string keywordTable[KWT_SIZE] = {
-	"data",		/* KW00 */
-	"code",		/* KW01 */
-	"int",		/* KW02 */
-	"real",		/* KW03 */
+	"var",		/* KW00 */
+//	"code",		/* KW01 */
+	"int32",		/* KW02 */
+	"float32",		/* KW03 */
 	"string",	/* KW04 */
 	"if",		/* KW05 */
 	"then",		/* KW06 */
 	"else",		/* KW07 */
 	"while",	/* KW08 */
-	"do"		/* KW09 */
+	"do",		/* KW09 */
+	"func",
+	"Print",
+	"Println"
 };
 
 /* NEW SECTION: About indentation */
