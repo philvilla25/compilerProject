@@ -2,37 +2,36 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2023
-* Author: TO_DO
+* Author: Philogene Villanueva, Tasfia Khan Aohana
 * Professors: Paulo Sousa
 ************************************************************
-=---------------------------------------=
-|  COMPILERS - ALGONQUIN COLLEGE (F23)  |
-=---------------------------------------=
-|              ....                     |
-|          ........::.::::::.           |
-|        .:........::.:^^^~~~:          |
-|        :^^::::::^^^::^!7??7~^.        |
-|       .:^~~^!77777~~7?YY?7??7^.       |
-|       :.^~!??!^::::^^~!?5PY??!~.      |
-|       ~!!7J~.:::^^^^~!!~~?G5J?~       |
-|       :^~?!~7?Y57^^?PP5YJ!J5Y?:       |
-|       .~!!.:^!7!:.:7JYYJ7~7Y7^        |
-|       .~77..    . .~^:^^^~7?:         |
-|       .^!^~:::.:^!7?~^~!77J:          |
-|        ^^!Y~^^^^~?YJ77??7JJ^          |
-|       .^7J?~^~~^~7??7??7JY?~:         |
-|        ::^^~^7?!^~~!7???J?J7~:.       |
-|         ^~~!.^7YPPPP5Y?7J7777~.       |
-|        ..:~..:^!JPP5YJ?!777!^.        |
-| .~?JJJJJJJJJJYYYYYPPPPPPPPPPPP5PPYY~  |
-|  :!Y5GGG.___ YYYYYY__._.PPGGGGGG5!.   |
-|   :!Y5G / __| ___ / _(_)__ _ PGP5.    |
-|    :~75 \__ \/ _ \  _| / _` | 5?.     |
-|     7~7 |___/\___/_| |_\__,_| Y5?.    |
-|    .^~!~.....................P5YY7.   |
-|   .:::::::::::::?JJJJYYYYYYYYYJJJJ7.  |
-|                                       |
-=---------------------------------------=
+=--------------------------------------------------------=
+||          COMPILERS - ALGONQUIN COLLEGE (F23)         ||
+|=------------------------------------------------------=|
+||                                                      ||
+||                   		_-_.                        ||
+||	         			 _-',^. `-_.                    ||
+||	        		 ._-' ,'   `.   `-_                 ||
+||	        		!`-_._________`-':::                ||
+||	        		!   /\        /\::::                ||
+||	        		;  /  \      /..\:::                ||
+||	        		! /    \    /....\::                ||
+||	        		!/      \  /......\:                ||
+||		        	;--.___. \/_.__.--;;                ||
+||	        		 '-_    `:!;;;;;;;'                 ||
+||			        	`-_, :!;;;''                    ||
+||	        			   `-!'                         ||
+||                                                      ||
+||     _____    __    __     _____     _____  __ __     ||
+||    /\___/\  /_/\  /\_\  /\  __/\  /\_____\/_/\__/\   ||
+||   / / _ \ \ ) ) \/ ( (  ) )(_ ) )( (_____/) ) ) ) )  ||
+||   \ \(_)/ //_/ \  / \_\/ / __/ /  \ \__\ /_/ /_/_/   ||
+||  / / _ \ \\ \ \\// / /\ \  _\ \  / /__/_\ \ \ \ \    ||
+||  ( (_( )_) ))_) )( (_(  ) )(__) )( (_____\)_) ) \ \  ||
+||   \/_/ \_\/ \_\/  \/_/  \/____\/  \/_____/\_\/ \_\/  ||
+||                                                      ||
+| =----------------------------------------------------= |
+=-------------------------------------------------------=
 */
 
 /*
@@ -95,21 +94,21 @@
 
  /* Global objects - variables (used in other codes as external) */
 BufferPointer stringLiteralTable;	/* This buffer implements String Literal Table */
-sofia_intg errorNumber;				/* Run-time error number = 0 by default (ANSI) */
+int32 errorNumber;				/* Run-time error number = 0 by default (ANSI) */
 
 /* External objects */
-extern sofia_intg line; /* Source code line numbers - defined in scanner.c */
-extern Token tokenizer(sofia_void);
+extern int32 line; /* Source code line numbers - defined in scanner.c */
+extern Token tokenizer(amber_void);
 
 /*
  * -------------------------------------------------------------
  *  Function declarations
  * -------------------------------------------------------------
  */
-sofia_void printScannerError(sofia_string fmt, ...);
-sofia_void displayScanner(BufferPointer ptrBuffer);
-sofia_long getScannerFilesize(sofia_string fname);
-sofia_void printToken(Token t);
+amber_void printScannerError(string fmt, ...);
+amber_void displayScanner(BufferPointer ptrBuffer);
+int64 getScannerFilesize(string fname);
+amber_void printToken(Token t);
 
 /*
 ************************************************************
@@ -121,12 +120,12 @@ sofia_void printToken(Token t);
  ***********************************************************
  */
 
-sofia_intg mainScanner(sofia_intg argc, sofia_string* argv) {
+int32 mainScanner(int32 argc, string* argv) {
 
 	BufferPointer sourceBuffer;		/* Pointer to input (source) buffer */
 	FILE* fileHandler;				/* Input file handle */
 	Token currentToken;				/* Token produced by the scanner */
-	sofia_intg loadSize = 0;			/* The size of the file loaded in the buffer */
+	int32 loadSize = 0;			/* The size of the file loaded in the buffer */
 
 	/* Check for correct arrguments - source file name */
 	if (argc <= 2) {
@@ -224,7 +223,7 @@ sofia_intg mainScanner(sofia_intg argc, sofia_string* argv) {
 ***********************************************************
 */
 
-sofia_void printScannerError(sofia_string fmt, ...) {
+amber_void printScannerError(string fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 	(void)vfprintf(stderr, fmt, ap);
@@ -242,7 +241,7 @@ sofia_void printScannerError(sofia_string fmt, ...) {
  ***********************************************************
  */
 
-sofia_void displayScanner(BufferPointer ptrBuffer) {
+amber_void displayScanner(BufferPointer ptrBuffer) {
 	printf("\nPrinting buffer parameters:\n\n");
 	printf("The capacity of the buffer is:  %d\n", readerGetSize(ptrBuffer));
 	printf("The current size of the buffer is:  %d\n", readerGetPosWrte(ptrBuffer));
@@ -261,9 +260,9 @@ sofia_void displayScanner(BufferPointer ptrBuffer) {
  ***********************************************************
  */
 
-sofia_long getScannerFilesize(sofia_string fname) {
+int64 getScannerFilesize(string fname) {
 	FILE* fileInput;
-	sofia_long fileLength;
+	int64 fileLength;
 	fileInput = fopen(fname, "r");
 	if (fileInput == NULL) {
 		printScannerError("%s%s", "Cannot open file: ", fname);

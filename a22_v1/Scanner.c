@@ -2,37 +2,36 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2023
-* Author: TO_DO
+* Author: Philogene Villanueva, Tasfia Khan Aohana
 * Professors: Paulo Sousa
 ************************************************************
-=---------------------------------------=
-|  COMPILERS - ALGONQUIN COLLEGE (F23)  |
-=---------------------------------------=
-|              ....                     |
-|          ........::.::::::.           |
-|        .:........::.:^^^~~~:          |
-|        :^^::::::^^^::^!7??7~^.        |
-|       .:^~~^!77777~~7?YY?7??7^.       |
-|       :.^~!??!^::::^^~!?5PY??!~.      |
-|       ~!!7J~.:::^^^^~!!~~?G5J?~       |
-|       :^~?!~7?Y57^^?PP5YJ!J5Y?:       |
-|       .~!!.:^!7!:.:7JYYJ7~7Y7^        |
-|       .~77..    . .~^:^^^~7?:         |
-|       .^!^~:::.:^!7?~^~!77J:          |
-|        ^^!Y~^^^^~?YJ77??7JJ^          |
-|       .^7J?~^~~^~7??7??7JY?~:         |
-|        ::^^~^7?!^~~!7???J?J7~:.       |
-|         ^~~!.^7YPPPP5Y?7J7777~.       |
-|        ..:~..:^!JPP5YJ?!777!^.        |
-| .~?JJJJJJJJJJYYYYYPPPPPPPPPPPP5PPYY~  |
-|  :!Y5GGG.___ YYYYYY__._.PPGGGGGG5!.   |
-|   :!Y5G / __| ___ / _(_)__ _ PGP5.    |
-|    :~75 \__ \/ _ \  _| / _` | 5?.     |
-|     7~7 |___/\___/_| |_\__,_| Y5?.    |
-|    .^~!~.....................P5YY7.   |
-|   .:::::::::::::?JJJJYYYYYYYYYJJJJ7.  |
-|                                       |
-=---------------------------------------=
+=--------------------------------------------------------=
+||          COMPILERS - ALGONQUIN COLLEGE (F23)         ||
+|=------------------------------------------------------=|
+||                                                      ||
+||                   		_-_.                        ||
+||	         			 _-',^. `-_.                    ||
+||	        		 ._-' ,'   `.   `-_                 ||
+||	        		!`-_._________`-':::                ||
+||	        		!   /\        /\::::                ||
+||	        		;  /  \      /..\:::                ||
+||	        		! /    \    /....\::                ||
+||	        		!/      \  /......\:                ||
+||		        	;--.___. \/_.__.--;;                ||
+||	        		 '-_    `:!;;;;;;;'                 ||
+||			        	`-_, :!;;;''                    ||
+||	        			   `-!'                         ||
+||                                                      ||
+||     _____    __    __     _____     _____  __ __     ||
+||    /\___/\  /_/\  /\_\  /\  __/\  /\_____\/_/\__/\   ||
+||   / / _ \ \ ) ) \/ ( (  ) )(_ ) )( (_____/) ) ) ) )  ||
+||   \ \(_)/ //_/ \  / \_\/ / __/ /  \ \__\ /_/ /_/_/   ||
+||  / / _ \ \\ \ \\// / /\ \  _\ \  / /__/_\ \ \ \ \    ||
+||  ( (_( )_) ))_) )( (_(  ) )(__) )( (_____\)_) ) \ \  ||
+||   \/_/ \_\/ \_\/  \/_/  \/____\/  \/_____/\_\/ \_\/  ||
+||                                                      ||
+| =----------------------------------------------------= |
+=-------------------------------------------------------=
 */
 
 /*
@@ -89,13 +88,13 @@ TO_DO: Global vars definitions
 /* Global objects - variables */
 /* This buffer is used as a repository for string literals. */
 extern BufferPointer stringLiteralTable;	/* String literal table */
-sofia_intg line;								/* Current line number of the source code */
-extern sofia_intg errorNumber;				/* Defined in platy_st.c - run-time error number */
+int32 line;								/* Current line number of the source code */
+extern int32 errorNumber;				/* Defined in platy_st.c - run-time error number */
 
-extern sofia_intg stateType[NUM_STATES];
-extern sofia_string keywordTable[KWT_SIZE];
+extern int32 stateType[NUM_STATES];
+extern string keywordTable[KWT_SIZE];
 extern PTR_ACCFUN finalStateTable[NUM_STATES];
-extern sofia_intg transitionTable[NUM_STATES][CHAR_CLASSES];
+extern int32 transitionTable[NUM_STATES][CHAR_CLASSES];
 
 /* Local(file) global objects - variables */
 static BufferPointer lexemeBuffer;			/* Pointer to temporary lexeme buffer */
@@ -109,9 +108,9 @@ static BufferPointer sourceBuffer;			/* Pointer to input source buffer */
  */
  /* TO_DO: Follow the standard and adjust datatypes */
 
-sofia_intg startScanner(BufferPointer psc_buf) {
+int32 startScanner(BufferPointer psc_buf) {
 	/* TO_DO: Start histogram */
-	for (sofia_intg i=0; i<NUM_TOKENS;i++)
+	for (int32 i=0; i<NUM_TOKENS;i++)
 		scData.scanHistogram[i] = 0;
 	/* Basic scanner initialization */
 	/* in case the buffer has been read previously  */
@@ -133,20 +132,20 @@ sofia_intg startScanner(BufferPointer psc_buf) {
  ***********************************************************
  */
 
-Token tokenizer(sofia_void) {
+Token tokenizer(amber_void) {
 
 	/* TO_DO: Follow the standard and adjust datatypes */
 
 	Token currentToken = { 0 }; /* token to return after pattern recognition. Set all structure members to 0 */
-	sofia_char c;	/* input symbol */
-	sofia_intg state = 0;		/* initial state of the FSM */
-	sofia_intg lexStart;		/* start offset of a lexeme in the input char buffer (array) */
-	sofia_intg lexEnd;		/* end offset of a lexeme in the input char buffer (array)*/
+	rune c;	/* input symbol */
+	int32 state = 0;		/* initial state of the FSM */
+	int32 lexStart;		/* start offset of a lexeme in the input char buffer (array) */
+	int32 lexEnd;		/* end offset of a lexeme in the input char buffer (array)*/
 
-	sofia_intg lexLength;		/* token length */
-	sofia_intg i;				/* counter */
+	int32 lexLength;		/* token length */
+	int32 i;				/* counter */
 	/*
-	sofia_char newc;			// new char
+	rune newc;			// new char
 	*/
 
 	while (1) { /* endless loop broken by token returns it will generate a warning */
@@ -225,7 +224,7 @@ Token tokenizer(sofia_void) {
 				readerRetract(sourceBuffer);
 			lexEnd = readerGetPosRead(sourceBuffer);
 			lexLength = lexEnd - lexStart;
-			lexemeBuffer = readerCreate((sofia_intg)lexLength + 2, 0, MODE_FIXED);
+			lexemeBuffer = readerCreate((int32)lexLength + 2, 0, MODE_FIXED);
 			if (!lexemeBuffer) {
 				fprintf(stderr, "Scanner error: Can not create buffer\n");
 				exit(1);
@@ -270,9 +269,9 @@ Token tokenizer(sofia_void) {
  */
  /* TO_DO: Just change the datatypes */
 
-sofia_intg nextState(sofia_intg state, sofia_char c) {
-	sofia_intg col;
-	sofia_intg next;
+int32 nextState(int32 state, rune c) {
+	int32 col;
+	int32 next;
 	col = nextClass(c);
 	next = transitionTable[state][col];
 	if (DEBUG)
@@ -301,8 +300,8 @@ sofia_intg nextState(sofia_intg state, sofia_char c) {
 /*    [A-z],[0-9],    _,    &,   \', SEOF,    #, other
 	   L(0), D(1), U(2), M(3), Q(4), E(5), C(6),  O(7) */
 
-sofia_intg nextClass(sofia_char c) {
-	sofia_intg val = -1;
+int32 nextClass(rune c) {
+	int32 val = -1;
 	switch (c) {
 	case CHRCOL2:
 		val = 2;
@@ -339,9 +338,9 @@ sofia_intg nextClass(sofia_char c) {
  */
  /* TO_DO: Adjust the function for IL */
 
-Token funcCMT(sofia_string lexeme) {
+Token funcCMT(string lexeme) {
 	Token currentToken = { 0 };
-	sofia_intg i = 0, len = (sofia_intg)strlen(lexeme);
+	int32 i = 0, len = (int32)strlen(lexeme);
 	currentToken.attribute.contentString = readerGetPosWrte(stringLiteralTable);
 	for (i = 1; i < len - 1; i++) {
 		if (lexeme[i] == '\n')
@@ -365,9 +364,9 @@ Token funcCMT(sofia_string lexeme) {
   */
   /* TO_DO: Adjust the function for IL */
 
-Token funcIL(sofia_string lexeme) {
+Token funcIL(string lexeme) {
 	Token currentToken = { 0 };
-	sofia_long tlong;
+	int64 tlong;
 	if (lexeme[0] != '\0' && strlen(lexeme) > NUM_LEN) {
 		currentToken = (*finalStateTable[ESNR])(lexeme);
 	}
@@ -376,7 +375,7 @@ Token funcIL(sofia_string lexeme) {
 		if (tlong >= 0 && tlong <= SHRT_MAX) {
 			currentToken.code = INL_T;
 			scData.scanHistogram[currentToken.code]++;
-			currentToken.attribute.intValue = (sofia_intg)tlong;
+			currentToken.attribute.intValue = (int32)tlong;
 		}
 		else {
 			currentToken = (*finalStateTable[ESNR])(lexeme);
@@ -400,11 +399,11 @@ Token funcIL(sofia_string lexeme) {
  */
  /* TO_DO: Adjust the function for ID */
 
-Token funcID(sofia_string lexeme) {
+Token funcID(string lexeme) {
 	Token currentToken = { 0 };
 	size_t length = strlen(lexeme);
-	sofia_char lastch = lexeme[length - 1];
-	sofia_intg isID = SOFIA_FALSE;
+	rune lastch = lexeme[length - 1];
+	int32 isID = SOFIA_FALSE;
 	switch (lastch) {
 		case MNID_SUF:
 			currentToken.code = MNID_T;
@@ -437,9 +436,9 @@ Token funcID(sofia_string lexeme) {
  */
 /* TO_DO: Adjust the function for SL */
 
-Token funcSL(sofia_string lexeme) {
+Token funcSL(string lexeme) {
 	Token currentToken = { 0 };
-	sofia_intg i = 0, len = (sofia_intg)strlen(lexeme);
+	int32 i = 0, len = (int32)strlen(lexeme);
 	currentToken.attribute.contentString = readerGetPosWrte(stringLiteralTable);
 	for (i = 1; i < len - 1; i++) {
 		if (lexeme[i] == '\n')
@@ -473,10 +472,10 @@ Token funcSL(sofia_string lexeme) {
  */
  /* TO_DO: Adjust the function for Keywords */
 
-Token funcKEY(sofia_string lexeme) {
+Token funcKEY(string lexeme) {
 	Token currentToken = { 0 };
-	sofia_intg kwindex = -1, j = 0;
-	sofia_intg len = (sofia_intg)strlen(lexeme);
+	int32 kwindex = -1, j = 0;
+	int32 len = (int32)strlen(lexeme);
 	lexeme[len - 1] = '\0';
 	for (j = 0; j < KWT_SIZE; j++)
 		if (!strcmp(lexeme, &keywordTable[j][0]))
@@ -505,9 +504,9 @@ Token funcKEY(sofia_string lexeme) {
  */
  /* TO_DO: Adjust the function for Errors */
 
-Token funcErr(sofia_string lexeme) {
+Token funcErr(string lexeme) {
 	Token currentToken = { 0 };
-	sofia_intg i = 0, len = (sofia_intg)strlen(lexeme);
+	int32 i = 0, len = (int32)strlen(lexeme);
 	if (len > ERR_LEN) {
 		strncpy(currentToken.attribute.errLexeme, lexeme, ERR_LEN - 3);
 		currentToken.attribute.errLexeme[ERR_LEN - 3] = CHARSEOF0;
@@ -531,8 +530,8 @@ Token funcErr(sofia_string lexeme) {
  ***********************************************************
  */
 
-sofia_void printToken(Token t) {
-	extern sofia_string keywordTable[]; /* link to keyword table in */
+amber_void printToken(Token t) {
+	extern string keywordTable[]; /* link to keyword table in */
 	switch (t.code) {
 	case RTE_T:
 		printf("RTE_T\t\t%s", t.attribute.errLexeme);
@@ -553,8 +552,8 @@ sofia_void printToken(Token t) {
 		printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
 	case STR_T:
-		printf("STR_T\t\t%d\t ", (sofia_intg)t.attribute.codeType);
-		printf("%s\n", readerGetContent(stringLiteralTable, (sofia_intg)t.attribute.codeType));
+		printf("STR_T\t\t%d\t ", (int32)t.attribute.codeType);
+		printf("%s\n", readerGetContent(stringLiteralTable, (int32)t.attribute.codeType));
 		break;
 	case LPR_T:
 		printf("LPR_T\n");
@@ -591,7 +590,7 @@ sofia_void printToken(Token t) {
  *	- Void (procedure)
  ***********************************************************
  */
-sofia_void printScannerData(ScannerData scData) {
+amber_void printScannerData(ScannerData scData) {
 	/* Print Scanner statistics */
 	printf("Statistics:\n");
 	printf("----------------------------------\n");

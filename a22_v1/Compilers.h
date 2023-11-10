@@ -99,9 +99,9 @@ Programs:
 ------------------------------------------------------------
 */
 enum PROGRAMS {
-	PGM_READER	= 'a',
-	PGM_SCANNER = 'm',
-	PGM_PARSER	= 'b'
+	PGM_READER	= 'r',
+	PGM_SCANNER = 's',
+	PGM_PARSER	= 'p'
 };
 
 /*
