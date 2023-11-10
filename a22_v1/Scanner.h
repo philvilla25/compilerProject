@@ -124,7 +124,7 @@ typedef union TokenAttribute {
 	int32 intValue;				/* integer literal attribute (value) */
 	int32 keywordIndex;			/* keyword index in the keyword table */
 	int32 contentString;			/* string literal offset from the beginning of the string literal buffer (stringLiteralTable->content) */
-	sofia_real floatValue;				/* floating-point literal attribute (value) */
+	float floatValue;				/* floating-point literal attribute (value) */
 	rune idLexeme[VID_LEN + 1];	/* variable identifier token attribute */
 	rune errLexeme[ERR_LEN + 1];	/* error token attribite */
 } TokenAttribute;
@@ -134,7 +134,7 @@ typedef struct idAttibutes {
 	byte flags;			/* Flags information */
 	union {
 		int32 intValue;				/* Integer value */
-		sofia_real floatValue;			/* Float value */
+		float floatValue;			/* Float value */
 		string stringContent;		/* String value */
 	} values;
 } IdAttibutes;

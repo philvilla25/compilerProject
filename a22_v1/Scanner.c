@@ -403,12 +403,12 @@ Token funcID(string lexeme) {
 	Token currentToken = { 0 };
 	size_t length = strlen(lexeme);
 	rune lastch = lexeme[length - 1];
-	int32 isID = SOFIA_FALSE;
+	int32 isID = AMBER_FALSE;
 	switch (lastch) {
 		case MNID_SUF:
 			currentToken.code = MNID_T;
 			scData.scanHistogram[currentToken.code]++;
-			isID = SOFIA_TRUE;
+			isID = AMBER_TRUE;
 			break;
 		default:
 			// Test Keyword
@@ -416,7 +416,7 @@ Token funcID(string lexeme) {
 			currentToken = funcKEY(lexeme);
 			break;
 	}
-	if (isID == SOFIA_TRUE) {
+	if (isID == AMBER_TRUE) {
 		strncpy(currentToken.attribute.idLexeme, lexeme, VID_LEN);
 		currentToken.attribute.idLexeme[VID_LEN] = CHARSEOF0;
 	}
