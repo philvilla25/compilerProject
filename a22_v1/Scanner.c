@@ -401,25 +401,43 @@ Token funcIL(string lexeme) {
 
 Token funcID(string lexeme) {
 	Token currentToken = { 0 };
+
+	// Check if the lexeme is not NULL and not an empty string
+	if (lexeme == NULL || lexeme[0] == '\0') {
+		bErrorPrint("Invalid lexeme for ID");
+		return currentToken;  // Return an empty token or handle appropriately
+	}
+
 	size_t length = strlen(lexeme);
+
+	// Check if the lexeme length is within the limit
+	if (length > VID_LEN) {
+		bErrorPrint("Lexeme length exceeds the limit for ID");
+		return currentToken;  // Return an empty token or handle appropriately
+	}
+
 	rune lastch = lexeme[length - 1];
 	int32 isID = AMBER_FALSE;
+
 	switch (lastch) {
-		case MNID_SUF:
-			currentToken.code = MNID_T;
-			scData.scanHistogram[currentToken.code]++;
-			isID = AMBER_TRUE;
-			break;
-		default:
-			// Test Keyword
-			lexeme[length - 1] = '\0';
-			currentToken = funcKEY(lexeme);
-			break;
+	case MNID_SUF:
+		currentToken.code = MNID_T;
+		scData.scanHistogram[currentToken.code]++;
+		isID = AMBER_TRUE;
+		break;
+	default:
+		// Test Keyword
+		lexeme[length - 1] = '\0';
+		currentToken = funcKEY(lexeme);
+		break;
 	}
+
 	if (isID == AMBER_TRUE) {
+		// Use strncpy to ensure the copied string is null-terminated and does not exceed VID_LEN
 		strncpy(currentToken.attribute.idLexeme, lexeme, VID_LEN);
 		currentToken.attribute.idLexeme[VID_LEN] = CHARSEOF0;
 	}
+
 	return currentToken;
 }
 
