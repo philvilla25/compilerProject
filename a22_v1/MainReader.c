@@ -254,37 +254,13 @@ amber_void bErrorPrint(string fmt, ...) {
 int64 getFileSize(string fname) {
 	FILE* input;
 	int64 flength;
-
-	// Check if the filename is provided
-	if (fname == NULL || fname[0] == '\0') {
-		bErrorPrint("Invalid file name");
-		return 0;
-	}
-
-	// Check if the filename length is within limits
-	if (strlen(fname) >= MAX_FILE_PATH) {
-		bErrorPrint("File name too long");
-		return 0;
-	}
-
 	input = fopen(fname, "r");
-
-	// Check if the file could be opened
 	if (input == NULL) {
-		bErrorPrint("Cannot open file: %s", fname);
+		bErrorPrint("%s%s", "Cannot open file: ", fname);
 		return 0;
 	}
-
 	fseek(input, 0L, SEEK_END);
 	flength = ftell(input);
-
-	// Check if ftell encountered an error
-	if (flength == -1) {
-		bErrorPrint("Error determining file size for file: %s", fname);
-		fclose(input);
-		return 0;
-	}
-
 	fclose(input);
 	return flength;
 }

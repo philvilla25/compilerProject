@@ -62,7 +62,7 @@
 #include <limits.h>  /* integer types constants */
 #include <float.h>   /* floating-point types constants */
 
-/* #define NDEBUG to suppress assert() call */
+  /* #define NDEBUG to suppress assert() call */
 #include <assert.h>  /* assert() prototype */
 
 /* project header files */
@@ -110,7 +110,7 @@ static BufferPointer sourceBuffer;			/* Pointer to input source buffer */
 
 int32 startScanner(BufferPointer psc_buf) {
 	/* TO_DO: Start histogram */
-	for (int32 i=0; i<NUM_TOKENS;i++)
+	for (int32 i = 0; i < NUM_TOKENS; i++)
 		scData.scanHistogram[i] = 0;
 	/* Basic scanner initialization */
 	/* in case the buffer has been read previously  */
@@ -127,7 +127,7 @@ int32 startScanner(BufferPointer psc_buf) {
  *		Main function of buffer, responsible to classify a char (or sequence
  *		of chars). In the first part, a specific sequence is detected (reading
  *		from buffer). In the second part, a pattern (defined by Regular Expression)
- *		is recognized and the appropriate function is called (related to final states 
+ *		is recognized and the appropriate function is called (related to final states
  *		in the Transition Diagram).
  ***********************************************************
  */
@@ -160,7 +160,7 @@ Token tokenizer(amber_void) {
 		/* TO_DO: All patterns that do not require accepting functions */
 		switch (c) {
 
-		/* Cases for spaces */
+			/* Cases for spaces */
 		case ' ':
 		case '\t':
 		case '\f':
@@ -169,7 +169,7 @@ Token tokenizer(amber_void) {
 			line++;
 			break;
 
-		/* Cases for symbols */
+			/* Cases for symbols */
 		case ';':
 			currentToken.code = EOS_T;
 			scData.scanHistogram[currentToken.code]++;
@@ -190,7 +190,7 @@ Token tokenizer(amber_void) {
 			currentToken.code = RBR_T;
 			scData.scanHistogram[currentToken.code]++;
 			return currentToken;
-		/* Cases for END OF FILE */
+			/* Cases for END OF FILE */
 		case CHARSEOF0:
 			currentToken.code = SEOF_T;
 			scData.scanHistogram[currentToken.code]++;
@@ -202,13 +202,13 @@ Token tokenizer(amber_void) {
 			currentToken.attribute.seofType = SEOF_255;
 			return currentToken;
 
-		/* ------------------------------------------------------------------------
-			Part 2: Implementation of Finite State Machine (DFA) or Transition Table driven Scanner
-			Note: Part 2 must follow Part 1 to catch the illegal symbols
-			-----------------------------------------------------------------------
-		*/
+			/* ------------------------------------------------------------------------
+				Part 2: Implementation of Finite State Machine (DFA) or Transition Table driven Scanner
+				Note: Part 2 must follow Part 1 to catch the illegal symbols
+				-----------------------------------------------------------------------
+			*/
 
-		/* TO_DO: Adjust / check the logic for your language */
+			/* TO_DO: Adjust / check the logic for your language */
 
 		default: // general case
 			state = nextState(state, c);
@@ -294,30 +294,30 @@ int32 nextState(int32 state, rune c) {
 	* For instance, a letter should return the column for letters, etc.
  ***********************************************************
  */
-/* TO_DO: Use your column configuration */
+ /* TO_DO: Use your column configuration */
 
-/* Adjust the logic to return next column in TT */
-/*    [A-z],[0-9],    _,    &,   \', SEOF,    #, other
-	   L(0), D(1), U(2), M(3), Q(4), E(5), C(6),  O(7) */
+ /* Adjust the logic to return next column in TT */
+ /*    [A-z],[0-9],    _,    &,   \', SEOF,    #, other
+		L(0), D(1), U(2), M(3), Q(4), E(5), C(6),  O(7) */
 
 int32 nextClass(rune c) {
 	int32 val = -1;
 	switch (c) {
 	case CHRCOL2:
-		val = 2;
-		break;
-	case CHRCOL3:
 		val = 3;
 		break;
-	case CHRCOL4:
+	case CHRCOL3:
 		val = 4;
 		break;
+	case CHRCOL4:
+		val = 5;
+		break;
 	case CHRCOL6:
-		val = 6;
+		val = 2;
 		break;
 	case CHARSEOF0:
 	case CHARSEOF255:
-		val = 5;
+		val = 0;
 		break;
 	default:
 		if (isalpha(c))
@@ -325,7 +325,7 @@ int32 nextClass(rune c) {
 		else if (isdigit(c))
 			val = 1;
 		else
-			val = 7;
+			val = 6;
 	}
 	return val;
 }
@@ -352,17 +352,17 @@ Token funcCMT(string lexeme) {
 }
 
 
- /*
-  ************************************************************
-  * Acceptance State Function IL
-  *		Function responsible to identify IL (integer literals).
-  * - It is necessary respect the limit (ex: 2-byte integer in C).
-  * - In the case of larger lexemes, error shoul be returned.
-  * - Only first ERR_LEN characters are accepted and eventually,
-  *   additional three dots (...) should be put in the output.
-  ***********************************************************
-  */
-  /* TO_DO: Adjust the function for IL */
+/*
+ ************************************************************
+ * Acceptance State Function IL
+ *		Function responsible to identify IL (integer literals).
+ * - It is necessary respect the limit (ex: 2-byte integer in C).
+ * - In the case of larger lexemes, error shoul be returned.
+ * - Only first ERR_LEN characters are accepted and eventually,
+ *   additional three dots (...) should be put in the output.
+ ***********************************************************
+ */
+ /* TO_DO: Adjust the function for IL */
 
 Token funcIL(string lexeme) {
 	Token currentToken = { 0 };
@@ -427,7 +427,7 @@ Token funcID(string lexeme) {
 		break;
 	default:
 		// Test Keyword
-		lexeme[length - 1] = '\0';
+		lexeme[length] = '\0';
 		currentToken = funcKEY(lexeme);
 		break;
 	}
@@ -446,13 +446,13 @@ Token funcID(string lexeme) {
 ************************************************************
  * Acceptance State Function SL
  *		Function responsible to identify SL (string literals).
- * - The lexeme must be stored in the String Literal Table 
- *   (stringLiteralTable). You need to include the literals in 
+ * - The lexeme must be stored in the String Literal Table
+ *   (stringLiteralTable). You need to include the literals in
  *   this structure, using offsets. Remember to include \0 to
  *   separate the lexemes. Remember also to incremente the line.
  ***********************************************************
  */
-/* TO_DO: Adjust the function for SL */
+ /* TO_DO: Adjust the function for SL */
 
 Token funcSL(string lexeme) {
 	Token currentToken = { 0 };
@@ -504,7 +504,9 @@ Token funcKEY(string lexeme) {
 		currentToken.attribute.codeType = kwindex;
 	}
 	else {
-		currentToken = funcErr(lexeme);
+		currentToken.code = MNID_T;
+		scData.scanHistogram[currentToken.code]++;
+		strncpy(currentToken.attribute.idLexeme, lexeme, VID_LEN);
 	}
 	return currentToken;
 }
