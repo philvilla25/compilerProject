@@ -198,7 +198,7 @@ static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
 	{     6,    6,    6,      7,      6,   6,  6	  },	// S6: NOAS
 	{     7,    7,    7,      8,      7,   7,  7	  },	// S7: ASNR (COM)
 	{     7,    7,    9,      7,      7,   7,  7      },	// S8: ASNR (ES)
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS     }  // S9: FSNR (ER)
+	{    FS,   FS,   FS,     FS,     FS,  FS,  FS     }     // S9: FSNR (ER)
 };
 
 /* Define accepting states types */

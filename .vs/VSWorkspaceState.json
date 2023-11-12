@@ -6,8 +6,10 @@
     ]
   },
   "ExpandedNodes": [
-    ""
+    "",
+    "\\a22_v1",
+    "\\a22_v1\\out"
   ],
-  "SelectedNode": "\\a22_v1",
+  "SelectedNode": "\\a22_v1\\out\\build",
   "PreviewInSolutionExplorer": false
 }

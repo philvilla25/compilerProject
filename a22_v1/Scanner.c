@@ -416,7 +416,7 @@ Token funcID(string lexeme) {
 		return currentToken;  // Return an empty token or handle appropriately
 	}
 
-	rune lastch = lexeme[length - 1];
+	rune lastch = lexeme[length];
 	int32 isID = AMBER_FALSE;
 
 	switch (lastch) {
