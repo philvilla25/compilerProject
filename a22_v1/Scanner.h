@@ -185,22 +185,23 @@ typedef struct scannerData {
 #define NUM_STATES		10
 #define CHAR_CLASSES	8
 
+
 /* TO_DO: Transition table - type of states defined in separate table */
 static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
-/*    [A-z], [0-9],    /,    *,      ",  SEOF,  other
-	   L(0),  D(1),  S(2),  T(3),  P(4), Q(5), O(6)   */
-	{     1,  ESWR,   6,     7,    ESWR, ESWR, ESWR   },	// S0: NOAS
-	{     1,    3,    1,    ESWR,	  1,  1,   2      },	// S1: NOAS
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S2: ASNR (MVID)
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S3: ASWR (KEY)
-	{     4,    4,    4,      4,      4,   5,  4	  },	// S4: NOAS
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S5: ASNR (SL)
-	{     6,    6,    5,      6,      6,   6,  6	  },	// S6: NOAS
-	{     7,    7,    8,      8,      7,   7,  7	  },	// S7: ASNR (COM)
-	{     7,    7,    9,      7,      7,   7,  7      },	// S8: ASNR (ES)
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS     }     // S9: FSNR (ER)
-
+	/*    [A-z],    [0-9],    /,      *,     .,     /',  other
+		   L(0),    D(1),    S(2), T(3),    P(4), Q(5),  O(6) */
+		{     1,	ESNR,	    6,    ESNR,	 ESWR,	  4,	ESNR},	// S0: NOAS
+		{     1,	3,		    1,    ESNR,		1,    1,	   2},	// S1: NOAS
+		{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},			// S2: ASNR (MVID)
+		{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},			// S3: ASWR (KEY)
+		{     4,    4,    4,    4,    4,	5,	  4},				// S4: NOAS
+		{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},			// S5: ASNR (SL)
+		{     6,    6,    5,    6,    6,	6,	  6},				// S6: NOAS
+		{    7,   7,   7,   7,   8,   7,	 7,   7},		// S7: ASNR (COM)
+		{    7,   7,   9,   7,   7,   7,	 7,   7},		// S8: ASNR (ES)
+		{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS}		// S9: ASWR (ER)
 };
+
 
 /* Define accepting states types */
 #define NOFS	0		/* not accepting state */
