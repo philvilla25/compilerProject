@@ -89,7 +89,7 @@ enum TOKENS {
 	RTE_T,		/* 10: Run-time error token */
 	SEOF_T,		/* 11: Source end-of-file token */
 	CMT_T,		/* 12: Comment token */
-	STAR_T		/* 13. Star for comment*/
+	//STAR_T		/* 13. Star for comment*/
 };
 
 /* TO_DO: Define the list of keywords */
@@ -107,7 +107,7 @@ static string tokenStrTable[NUM_TOKENS] = {
 	"RTE_T",
 	"SEOF_T",
 	"CMT_T"
-	"STAR_T"
+	//"STAR_T"
 };
 
 /* TO_DO: Operators token attributes */
@@ -173,8 +173,8 @@ typedef struct scannerData {
 //#define CHRCOL7 ''
 
 /* These constants will be used on VID / MID function */
-#define MNID_SUF '&'
-#define COMM_SYM '#'
+//#define MNID_SUF '&'
+//#define COMM_SYM '#'
 
 /* TO_DO: Error states and illegal state */
 #define ESNR	8		/* Error state with no retract */
@@ -199,6 +199,7 @@ static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
 	{     7,    7,    7,      8,      7,   7,  7	  },	// S7: ASNR (COM)
 	{     7,    7,    9,      7,      7,   7,  7      },	// S8: ASNR (ES)
 	{    FS,   FS,   FS,     FS,     FS,  FS,  FS     }     // S9: FSNR (ER)
+
 };
 
 /* Define accepting states types */
