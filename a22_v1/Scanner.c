@@ -274,6 +274,7 @@ int32 nextState(int32 state, char c) {
 	int32 next;
 	col = nextClass(c);
 	next = transitionTable[state][col];
+	printf("awa ni siya %d %d", state, col);
 	if (DEBUG)
 		printf("Input symbol: %c Row: %d Column: %d Next: %d \n", c, state, col, next);
 	assert(next != FS);
