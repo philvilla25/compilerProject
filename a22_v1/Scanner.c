@@ -420,11 +420,12 @@ Token funcID(string lexeme) {
 	int32 isID = AMBER_FALSE;
 
 	switch (lastch) {
-	case MNID_SUF:
+/*	case MNID_SUF:
 		currentToken.code = MNID_T;
 		scData.scanHistogram[currentToken.code]++;
 		isID = AMBER_TRUE;
 		break;
+		*/
 	default:
 		// Test Keyword
 		lexeme[length] = '\0';

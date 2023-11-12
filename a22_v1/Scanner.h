@@ -89,7 +89,7 @@ enum TOKENS {
 	RTE_T,		/* 10: Run-time error token */
 	SEOF_T,		/* 11: Source end-of-file token */
 	CMT_T,		/* 12: Comment token */
-	STAR_T		/* 13. Star for comment*/
+	//STAR_T		/* 13. Star for comment*/
 };
 
 /* TO_DO: Define the list of keywords */
@@ -107,7 +107,7 @@ static string tokenStrTable[NUM_TOKENS] = {
 	"RTE_T",
 	"SEOF_T",
 	"CMT_T"
-	"STAR_T"
+	//"STAR_T"
 };
 
 /* TO_DO: Operators token attributes */
@@ -173,8 +173,8 @@ typedef struct scannerData {
 //#define CHRCOL7 ''
 
 /* These constants will be used on VID / MID function */
-#define MNID_SUF '&'
-#define COMM_SYM '#'
+//#define MNID_SUF '&'
+//#define COMM_SYM '#'
 
 /* TO_DO: Error states and illegal state */
 #define ESNR	8		/* Error state with no retract */
@@ -187,18 +187,18 @@ typedef struct scannerData {
 
 /* TO_DO: Transition table - type of states defined in separate table */
 static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
-/*    [A-z], [0-9],    /,    *,      .,   /',  other
-	   L(0),  D(1),  S(2),  T(3),  P(4), Q(5), O(6)   */
-	{     1,  ESNR,   6,    ESNR,  ESWR,  4,   ESNR   },	// S0: NOAS
-	{     1,    3,    1,    ESNR,	  1,  1,   2      },	// S1: NOAS
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S2: ASNR (MVID)
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S3: ASWR (KEY)
-	{     4,    4,    4,      4,      4,   5,  4	  },	// S4: NOAS
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S5: ASNR (SL)
-	{     6,    6,    6,      7,      6,   6,  6	  },	// S6: NOAS
-	{     7,    7,    7,      8,      7,   7,  7	  },	// S7: ASNR (COM)
-	{     7,    7,    9,      7,      7,   7,  7      },	// S8: ASNR (ES)
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS     }  // S9: FSNR (ER)
+/*    [A-z],    [0-9],    /,      *,     .,     /',  other
+	   L(0),    D(1),    S(2), T(3),    P(4), Q(5),  O(6) */
+	{     1,	ESNR,	    6,    ESNR,	 ESWR,	  4,	ESNR},	// S0: NOAS
+	{     1,	3,		    1,    ESNR,		1,    1,	   2},	// S1: NOAS
+	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},			// S2: ASNR (MVID)
+	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},			// S3: ASWR (KEY)
+	{     4,    4,    4,    4,    4,	5,	  4},				// S4: NOAS
+	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS},			// S5: ASNR (SL)
+	{     6,    6,    6,    7,    6,	6,	  6},				// S6: NOAS
+	{    7,   7,   7,   7,   8,   7,	 7,   7},		// S7: ASNR (COM)
+	{    7,   7,   9,   7,   7,   7,	 7,   7},		// S8: ASNR (ES)
+	{    FS,   FS,   FS,   FS,   FS,   FS,	 FS,   FS}		// S9: ASWR (ER)
 };
 
 /* Define accepting states types */
