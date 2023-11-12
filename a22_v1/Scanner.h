@@ -167,7 +167,7 @@ typedef struct scannerData {
 //#define CHRCOL2 '_'
 #define CHRCOL2 '/'
 //#define CHRCOL3 '&'
-#define CHRCOL3 '*'
+#define CHRCOL3 '$'
 #define CHRCOL4 '"'
 //#define CHRCOL6 '/'
 //#define CHRCOL7 ''
@@ -189,17 +189,17 @@ typedef struct scannerData {
 /* TO_DO: Transition table - type of states defined in separate table */
 static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
 	/*     [A-z],   [0-9],     /,      *,     .,      SEOF,  other
-		   L(0),    D(1),     S(2),  T(3),    P(4),   Q(5),  O(6) */
-		{     1,	ESNR,	    6,   ESNR,	  ESWR,	    4,	  ESNR},	// S0: NOAS
-		{     1,	   1,		2,      2,		 3,     1,	   2   },	// S1: NOAS
-		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },			// S2: ASNR (MVID)
-		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },			// S3: ASWR (KEY)
-		{     4,       4,       4,      4,       4,	    5,	   4   },				// S4: NOAS
-		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },			// S5: ASNR (SL)
-		{     6,       6,       7 ,      6,       6,	6,	   6   },				// S6: NOAS
-		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },		// S7: ASNR (COM)
-		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },		// S8: ASNR (ES)
-		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS}		// S9: ASWR (ER)
+		   L(0),    D(1),     C(2),  S(3),    P(4),   Q(5),  O(6) */
+		{     1,	ESNR,	    6,   ESNR,	  ESWR,	    4,	  ESNR },	// S0: NOFS
+		{     1,	   1,		2,      2,		 3,     1,	   2   },	// S1: NOFS
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S2: FSNR (MVID)
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S3: FSWR (KEY)
+		{     4,       4,       4,      4,       4,	    5,	   4   },	// S4: NOFS
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S5: FSNR (SL)
+		{     6,       6,       7 ,      6,       6,	6,	   6   },	// S6: NOFS
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S7: FSNR
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  9   },	// S8: FSNR
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   }	// S9: FSWR
 };
 
 

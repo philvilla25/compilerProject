@@ -190,6 +190,18 @@ Token tokenizer(amber_void) {
 			currentToken.code = RBR_T;
 			scData.scanHistogram[currentToken.code]++;
 			return currentToken;
+		case '=':
+			currentToken.attribute.relationalOperator = OP_EQ;
+			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			return currentToken;
+		case '%':
+			currentToken.attribute.logicalOperator = OP_DIV;
+			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			return currentToken;
+		case '*':
+			currentToken.attribute.logicalOperator = OP_MUL;
+			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			return currentToken;
 			/* Cases for END OF FILE */
 		case CHARSEOF0:
 			currentToken.code = SEOF_T;
@@ -215,6 +227,7 @@ Token tokenizer(amber_void) {
 			lexStart = readerGetPosRead(sourceBuffer) - 1;
 			readerSetMark(sourceBuffer, lexStart);
 			int pos = 0;
+			printf("STATE %d \n", state);
 			while (stateType[state] == NOFS) {
 				c = readerGetChar(sourceBuffer);
 				state = nextState(state, c);
@@ -274,7 +287,7 @@ int32 nextState(int32 state, char c) {
 	int32 next;
 	col = nextClass(c);
 	next = transitionTable[state][col];
-	printf("awa ni siya %d %d", state, col);
+	//printf("awa ni siya %d %d \n", state, col);
 	if (DEBUG)
 		printf("Input symbol: %c Row: %d Column: %d Next: %d \n", c, state, col, next);
 	assert(next != FS);
@@ -298,9 +311,8 @@ int32 nextState(int32 state, char c) {
  /* TO_DO: Use your column configuration */
 
  /* Adjust the logic to return next column in TT */
- /*      [A-z],[0-9], /,    *,    ",  SEOF, other 
-		L(0), D(1), U(2), M(3), Q(4), E(5), C(6),  */
-
+ /*    [A-z],   [0-9],     /,      *,       .,      SEOF,  other
+	    L(0),    D(1),     C(2),  S(3),    P(4),   Q(5),  O(6) */
 int32 nextClass(char c) {
 	int32 val = -1;
 	switch (c) {
