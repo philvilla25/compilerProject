@@ -430,8 +430,8 @@ Token funcID(string lexeme) {
 	int32 isID = AMBER_FALSE;
 
 	switch (lastch) {
-	case COMM_SYM:
-		currentToken.code = COMM_SYM;
+	case MNID_SUF:
+		currentToken.code = MNID_SUF;
 		scData.scanHistogram[currentToken.code]++;
 		isID = AMBER_TRUE;
 		break;
