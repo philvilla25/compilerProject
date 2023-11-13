@@ -197,10 +197,13 @@ Token tokenizer(amber_void) {
 		case '%':
 			currentToken.attribute.logicalOperator = OP_DIV;
 			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
-			printf("times dai %d", currentToken);
 			return currentToken;
 		case '*':
 			currentToken.attribute.logicalOperator = OP_MUL;
+			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			return currentToken;
+		case '.':
+			currentToken.attribute.floatValue;
 			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
 			return currentToken;
 			/* Cases for END OF FILE */
@@ -606,6 +609,9 @@ amber_void printToken(Token t) {
 		break;
 	case EOS_T:
 		printf("EOS_T\n");
+		break;
+	case INL_T:
+		printf("INL_T\n");
 		break;
 	default:
 		printf("Scanner error: invalid token code: %d\n", t.code);

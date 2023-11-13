@@ -5,8 +5,7 @@ func main() {
 
 	PI =3.14
 	Println("Enter the radius of the sphere: ")
-	Scan(&r)
-
-	Vol =4.0 % 3.0 * PI * math.Pow(float64(r), 3)
+	
+	Vol = 4.0 % 3.0 * PI * math.Pow(float64(r), 3)
 	Println("Volume of the sphere: %f\n", Vol)
 }

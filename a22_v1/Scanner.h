@@ -180,7 +180,6 @@ typedef struct scannerData {
 #define ESNR	8		/* Error state with no retract */
 #define ESWR	9		/* Error state with retract */
 #define FS		10		/* Illegal state */
-
  /* TO_DO: State transition table definition */
 #define NUM_STATES		10
 #define CHAR_CLASSES	8
@@ -191,7 +190,7 @@ static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
 	/*     [A-z],   [0-9],     /,      *,     ",      SEOF,  other
 		   L(0),    D(1),     C(2),  S(3),    P(4),   Q(5),  O(6) */
 		{     1,	ESNR,	    6,   ESNR,	    4,	    4,	  ESNR },	// S0: NOFS
-		{     1,	   1,		2,      2,		 3,     1,	   2   },	// S1: NOFS
+		{     1,	  1,		2,      2,		 3,     1,	   2   },	// S1: NOFS
 		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S2: FSNR (MVID)
 		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S3: FSWR (KEY)
 		{     4,       4,       4,      4,       5,	    5,	   4   },	// S4: NOFS
@@ -267,8 +266,8 @@ static PTR_ACCFUN finalStateTable[NUM_STATES] = {
 	funcSL,		/* SL   [05] */
 	funcIL,		/* -    [06] */
 	funcCMT,	/* COM  [07] */
-	funcErr,	/* ERR1 [06] */
-	funcErr		/* ERR2 [07] */
+	funcIL,	/* ERR1 [08] */
+	funcErr,	/* ERR2 [09] */
 };
 
 /*
