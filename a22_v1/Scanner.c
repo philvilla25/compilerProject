@@ -197,6 +197,7 @@ Token tokenizer(amber_void) {
 		case '%':
 			currentToken.attribute.logicalOperator = OP_DIV;
 			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			printf("times dai %d", currentToken);
 			return currentToken;
 		case '*':
 			currentToken.attribute.logicalOperator = OP_MUL;
@@ -287,7 +288,6 @@ int32 nextState(int32 state, char c) {
 	int32 next;
 	col = nextClass(c);
 	next = transitionTable[state][col];
-	//printf("awa ni siya %d %d \n", state, col);
 	if (DEBUG)
 		printf("Input symbol: %c Row: %d Column: %d Next: %d \n", c, state, col, next);
 	assert(next != FS);
@@ -323,7 +323,7 @@ int32 nextClass(char c) {
 		val = 3;
 		break;
 	case CHRCOL4:
-		val = 5;
+		val = 4;
 		break;
 	case CHARSEOF0:
 	case CHARSEOF255:

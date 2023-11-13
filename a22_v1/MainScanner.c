@@ -193,6 +193,7 @@ int32 mainScanner(int32 argc, string* argv) {
 	printf("----------------------------------\n");
 	do {
 		currentToken = tokenizer();
+		printf("CURRENT TOKEN", currentToken);
 		printToken(currentToken);
 	} while (currentToken.code != SEOF_T);
 

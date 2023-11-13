@@ -188,13 +188,13 @@ typedef struct scannerData {
 
 /* TO_DO: Transition table - type of states defined in separate table */
 static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
-	/*     [A-z],   [0-9],     /,      *,     .,      SEOF,  other
+	/*     [A-z],   [0-9],     /,      *,     ",      SEOF,  other
 		   L(0),    D(1),     C(2),  S(3),    P(4),   Q(5),  O(6) */
-		{     1,	ESNR,	    6,   ESNR,	  ESWR,	    4,	  ESNR },	// S0: NOFS
+		{     1,	ESNR,	    6,   ESNR,	    4,	    4,	  ESNR },	// S0: NOFS
 		{     1,	   1,		2,      2,		 3,     1,	   2   },	// S1: NOFS
 		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S2: FSNR (MVID)
 		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S3: FSWR (KEY)
-		{     4,       4,       4,      4,       4,	    5,	   4   },	// S4: NOFS
+		{     4,       4,       4,      4,       5,	    5,	   4   },	// S4: NOFS
 		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S5: FSNR (SL)
 		{     6,       6,       7 ,      6,       6,	6,	   6   },	// S6: NOFS
 		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S7: FSNR
@@ -265,7 +265,7 @@ static PTR_ACCFUN finalStateTable[NUM_STATES] = {
 	funcKEY,	/* KEY  [03] */
 	NULL,		/* -    [04] */
 	funcSL,		/* SL   [05] */
-	NULL,		/* -    [06] */
+	funcIL,		/* -    [06] */
 	funcCMT,	/* COM  [07] */
 	funcErr,	/* ERR1 [06] */
 	funcErr		/* ERR2 [07] */
