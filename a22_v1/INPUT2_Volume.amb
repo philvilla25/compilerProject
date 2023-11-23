@@ -1,12 +1,11 @@
-/** Amber Example 3:
-  Volume of a sphere */
+/ Amber Example 3:
+  Volume of a sphere /
 func main() {
 	var PI, r, Vol float32
 
-	PI = 3.14
-	Print("Enter the radius of the sphere: ")
-	Scan(&r)
-
-	Vol = 4.0 / 3.0 * PI * math.Pow(float64(r), 3)
-	Printf("Volume of the sphere: %f\n", Vol)
+	PI =3.14
+	Println("Enter the radius of the sphere: ")
+	
+	Vol = 4.0 % 3.0 * PI * math.Pow(float64(r), 3)
+	Println("Volume of the sphere: %f\n", Vol)
 }

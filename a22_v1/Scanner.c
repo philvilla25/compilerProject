@@ -137,7 +137,7 @@ Token tokenizer(amber_void) {
 	/* TO_DO: Follow the standard and adjust datatypes */
 
 	Token currentToken = { 0 }; /* token to return after pattern recognition. Set all structure members to 0 */
-	rune c;	/* input symbol */
+	char c;	/* input symbol */
 	int32 state = 0;		/* initial state of the FSM */
 	int32 lexStart;		/* start offset of a lexeme in the input char buffer (array) */
 	int32 lexEnd;		/* end offset of a lexeme in the input char buffer (array)*/
@@ -145,7 +145,7 @@ Token tokenizer(amber_void) {
 	int32 lexLength;		/* token length */
 	int32 i;				/* counter */
 	/*
-	rune newc;			// new char
+	char newc;			// new char
 	*/
 
 	while (1) { /* endless loop broken by token returns it will generate a warning */
@@ -190,6 +190,22 @@ Token tokenizer(amber_void) {
 			currentToken.code = RBR_T;
 			scData.scanHistogram[currentToken.code]++;
 			return currentToken;
+		case '=':
+			currentToken.attribute.relationalOperator = OP_EQ;
+			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			return currentToken;
+		case '%':
+			currentToken.attribute.logicalOperator = OP_DIV;
+			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			return currentToken;
+		case '*':
+			currentToken.attribute.logicalOperator = OP_MUL;
+			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			return currentToken;
+		case '.':
+			currentToken.attribute.floatValue;
+			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			return currentToken;
 			/* Cases for END OF FILE */
 		case CHARSEOF0:
 			currentToken.code = SEOF_T;
@@ -215,6 +231,7 @@ Token tokenizer(amber_void) {
 			lexStart = readerGetPosRead(sourceBuffer) - 1;
 			readerSetMark(sourceBuffer, lexStart);
 			int pos = 0;
+			printf("STATE %d \n", state);
 			while (stateType[state] == NOFS) {
 				c = readerGetChar(sourceBuffer);
 				state = nextState(state, c);
@@ -269,7 +286,7 @@ Token tokenizer(amber_void) {
  */
  /* TO_DO: Just change the datatypes */
 
-int32 nextState(int32 state, rune c) {
+int32 nextState(int32 state, char c) {
 	int32 col;
 	int32 next;
 	col = nextClass(c);
@@ -297,27 +314,23 @@ int32 nextState(int32 state, rune c) {
  /* TO_DO: Use your column configuration */
 
  /* Adjust the logic to return next column in TT */
- /*    [A-z],[0-9],    _,    &,   \', SEOF,    #, other
-		L(0), D(1), U(2), M(3), Q(4), E(5), C(6),  O(7) */
-
-int32 nextClass(rune c) {
+ /*    [A-z],   [0-9],     /,      *,       .,      SEOF,  other
+	    L(0),    D(1),     C(2),  S(3),    P(4),   Q(5),  O(6) */
+int32 nextClass(char c) {
 	int32 val = -1;
 	switch (c) {
 	case CHRCOL2:
-		val = 3;
+		val = 2;
 		break;
 	case CHRCOL3:
-		val = 4;
+		val = 3;
 		break;
 	case CHRCOL4:
-		val = 5;
-		break;
-	case CHRCOL6:
-		val = 2;
+		val = 4;
 		break;
 	case CHARSEOF0:
 	case CHARSEOF255:
-		val = 0;
+		val = 5;
 		break;
 	default:
 		if (isalpha(c))
@@ -416,15 +429,16 @@ Token funcID(string lexeme) {
 		return currentToken;  // Return an empty token or handle appropriately
 	}
 
-	rune lastch = lexeme[length - 1];
+	char lastch = lexeme[length];
 	int32 isID = AMBER_FALSE;
 
 	switch (lastch) {
 	case MNID_SUF:
-		currentToken.code = MNID_T;
+		currentToken.code = MNID_SUF;
 		scData.scanHistogram[currentToken.code]++;
 		isID = AMBER_TRUE;
 		break;
+		
 	default:
 		// Test Keyword
 		lexeme[length] = '\0';
@@ -595,6 +609,9 @@ amber_void printToken(Token t) {
 		break;
 	case EOS_T:
 		printf("EOS_T\n");
+		break;
+	case INL_T:
+		printf("INL_T\n");
 		break;
 	default:
 		printf("Scanner error: invalid token code: %d\n", t.code);

@@ -1,6 +1,3 @@
-/** Amber Example 2:
-  The program is "lexically" correct
-  and should not generate any error */
 func main() {
     Println("Hello, World!")
 }

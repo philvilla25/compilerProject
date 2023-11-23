@@ -89,7 +89,7 @@ enum TOKENS {
 	RTE_T,		/* 10: Run-time error token */
 	SEOF_T,		/* 11: Source end-of-file token */
 	CMT_T,		/* 12: Comment token */
-	STAR_T		/* 13. Star for comment*/
+	//STAR_T		/* 13. Star for comment*/
 };
 
 /* TO_DO: Define the list of keywords */
@@ -107,7 +107,7 @@ static string tokenStrTable[NUM_TOKENS] = {
 	"RTE_T",
 	"SEOF_T",
 	"CMT_T"
-	"STAR_T"
+	//"STAR_T"
 };
 
 /* TO_DO: Operators token attributes */
@@ -127,8 +127,8 @@ typedef union TokenAttribute {
 	int32 keywordIndex;			/* keyword index in the keyword table */
 	int32 contentString;			/* string literal offset from the beginning of the string literal buffer (stringLiteralTable->content) */
 	float floatValue;				/* floating-point literal attribute (value) */
-	rune idLexeme[VID_LEN + 1];	/* variable identifier token attribute */
-	rune errLexeme[ERR_LEN + 1];	/* error token attribite */
+	char idLexeme[VID_LEN + 1];	/* variable identifier token attribute */
+	char errLexeme[ERR_LEN + 1];	/* error token attribite */
 } TokenAttribute;
 
 /* TO_DO: Should be used if no symbol table is implemented */
@@ -165,41 +165,42 @@ typedef struct scannerData {
 /* TO_DO: Define lexeme FIXED classes */
 /* These constants will be used on nextClass */
 //#define CHRCOL2 '_'
-#define CHRCOL2 '*'
+#define CHRCOL2 '/'
 //#define CHRCOL3 '&'
-#define CHRCOL3 '.'
+#define CHRCOL3 '$'
 #define CHRCOL4 '"'
-#define CHRCOL6 '\\'
+//#define CHRCOL6 '/'
 //#define CHRCOL7 ''
 
 /* These constants will be used on VID / MID function */
-#define MNID_SUF '&'
-#define COMM_SYM '#'
+#define MNID_SUF ')'
+#define COMM_SYM '*'
 
 /* TO_DO: Error states and illegal state */
 #define ESNR	8		/* Error state with no retract */
 #define ESWR	9		/* Error state with retract */
 #define FS		10		/* Illegal state */
-
  /* TO_DO: State transition table definition */
 #define NUM_STATES		10
 #define CHAR_CLASSES	8
 
+
 /* TO_DO: Transition table - type of states defined in separate table */
 static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
-/*    [A-z], [0-9],    /,    *,      .,   /',  other
-	   L(0),  D(1),  S(2),  T(3),  P(4), Q(5), O(6)   */
-	{     1,  ESNR,   6,    ESNR,  ESWR,  4,   ESNR   },	// S0: NOAS
-	{     1,    3,    1,    ESNR,	  1,  1,   2      },	// S1: NOAS
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S2: ASNR (MVID)
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S3: ASWR (KEY)
-	{     4,    4,    4,      4,      4,   5,  4	  },	// S4: NOAS
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS	  },	// S5: ASNR (SL)
-	{     6,    6,    6,      7,      6,   6,  6	  },	// S6: NOAS
-	{     7,    7,    7,      8,      7,   7,  7	  },	// S7: ASNR (COM)
-	{     7,    7,    9,      7,      7,   7,  7      },	// S8: ASNR (ES)
-	{    FS,   FS,   FS,     FS,     FS,  FS,  FS     }  // S9: FSNR (ER)
+	/*     [A-z],   [0-9],     /,      *,     ",      SEOF,  other
+		   L(0),    D(1),     C(2),  S(3),    P(4),   Q(5),  O(6) */
+		{     1,	ESNR,	    6,   ESNR,	    4,	    4,	  ESNR },	// S0: NOFS
+		{     1,	  1,		2,      2,		 3,     1,	   2   },	// S1: NOFS
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S2: FSNR (MVID)
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S3: FSWR (KEY)
+		{     4,       4,       4,      4,       5,	    5,	   4   },	// S4: NOFS
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S5: FSNR (SL)
+		{     6,       6,       7 ,      6,       6,	6,	   6   },	// S6: NOFS
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   },	// S7: FSNR
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  9   },	// S8: FSNR
+		{    FS,      FS,      FS,     FS,      FS,    FS,	  FS   }	// S9: FSWR
 };
+
 
 /* Define accepting states types */
 #define NOFS	0		/* not accepting state */
@@ -228,8 +229,8 @@ TO_DO: Adjust your functions'definitions
 
 /* Static (local) function  prototypes */
 int32			startScanner(BufferPointer psc_buf);
-static int32	nextClass(rune c);					/* character class function */
-static int32	nextState(int32, rune);		/* state machine function */
+static int32	nextClass(char c);					/* character class function */
+static int32	nextState(int32, char);		/* state machine function */
 amber_void			printScannerData(ScannerData scData);
 Token				tokenizer(amber_void);
 
@@ -263,10 +264,10 @@ static PTR_ACCFUN finalStateTable[NUM_STATES] = {
 	funcKEY,	/* KEY  [03] */
 	NULL,		/* -    [04] */
 	funcSL,		/* SL   [05] */
-	NULL,		/* -    [06] */
+	funcIL,		/* -    [06] */
 	funcCMT,	/* COM  [07] */
-	funcErr,	/* ERR1 [06] */
-	funcErr		/* ERR2 [07] */
+	funcIL,	/* ERR1 [08] */
+	funcErr,	/* ERR2 [09] */
 };
 
 /*
@@ -305,7 +306,7 @@ static string keywordTable[KWT_SIZE] = {
 
 /* TO_DO: Should be used if no symbol table is implemented */
 typedef struct languageAttributes {
-	rune indentationCharType;
+	char indentationCharType;
 	int32 indentationCurrentPos;
 	/* TO_DO: Include any extra attribute to be used in your scanner (OPTIONAL and FREE) */
 } LanguageAttributes;

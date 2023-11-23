@@ -1,19 +1,20 @@
 # Amber Example 4:
   Testing numbers (ex: factorial) #
-main& {
-    data {
-        int i$, n$, f$;
-    }
-    code {
-        f$=1;
-        i$=1;
-        print&('Write a number:');
-        input&(n$);
-        while (i$<n$) do {
-            f$ = f$ * i$;
-            i$ = i$ + 1;
-        };
-        print&('Factorial:');
-        print&(f$);
-    }
+func main() {
+	data := struct {
+		i$, n$, f$ int
+	}{}
+
+	data.f$ = 1
+	data.i$ = 1
+
+	fmt.Print("Write a number: ")
+	fmt.Scan(&data.n$)
+
+	for data.i$ < data.n$ {
+		data.f$ = data.f$ * data.i$
+		data.i$ = data.i$ + 1
+	}
+
+	fmt.Println("Factorial:", data.f$)
 }
