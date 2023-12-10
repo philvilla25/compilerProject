@@ -111,7 +111,8 @@ Main functions signatures
 ------------------------------------------------------------
 */
 int32 mainReader(int32 argc, string* argv);
-
+int32 mainScanner(int32 argc, string* argv);
+int32 mainParser(int32 argc, string* argv);
 /* 
 TO_DO: Include later mainScaner (A22) and mainParser (A32)
 */
