@@ -417,7 +417,7 @@ Token funcID(string lexeme) {
 
 	// Check if the lexeme is not NULL and not an empty string
 	if (lexeme == NULL || lexeme[0] == '\0') {
-		bErrorPrint("Invalid lexeme for ID");
+		//bErrorPrint("Invalid lexeme for ID");
 		return currentToken;  // Return an empty token or handle appropriately
 	}
 
@@ -425,7 +425,7 @@ Token funcID(string lexeme) {
 
 	// Check if the lexeme length is within the limit
 	if (length > VID_LEN) {
-		bErrorPrint("Lexeme length exceeds the limit for ID");
+		//bErrorPrint("Lexeme length exceeds the limit for ID");
 		return currentToken;  // Return an empty token or handle appropriately
 	}
 
