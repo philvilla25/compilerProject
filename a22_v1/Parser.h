@@ -68,14 +68,14 @@
 /* Global vars */
 static Token			lookahead;
 extern BufferPointer	stringLiteralTable;
-extern int32		line;
+extern int32			line;
 extern Token			tokenizer(amber_void);
-extern string		keywordTable[KWT_SIZE];
-static int32		syntaxErrorNumber = 0;
+extern string			keywordTable[KWT_SIZE];
+static int32			syntaxErrorNumber = 0;
 
-#define LANG_WRTE		"print&"
-#define LANG_READ		"input&"
-#define LANG_MAIN		"main&"
+#define LANG_WRTE		"Println"
+#define LANG_READ		"input"
+#define LANG_MAIN		"main"
 
 /* TO_DO: Create ALL constants for keywords (sequence given in table.h) */
 
