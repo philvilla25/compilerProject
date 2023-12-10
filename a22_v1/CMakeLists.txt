@@ -42,7 +42,6 @@ add_executable (Amber
 	"Reader.h"		"Reader.c"		"MainReader.c"
 	"Scanner.h"		"Scanner.c"		"MainScanner.c"
 	"Parser.h"		"Parser.c"		"MainParser.c"
-	# TO_DO: Add A22 (Scanner) and A32 (Parser)
 )
 
 # TO_DO: Add tests and install targets if needed.

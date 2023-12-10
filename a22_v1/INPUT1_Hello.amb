@@ -1,4 +1,4 @@
-/ this is a comment123 /
+/ This is a comment123 /
 func main() {
-    Println("Hello, World!123")
+    println("Hello, World!123")
 }

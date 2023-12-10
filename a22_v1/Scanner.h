@@ -281,18 +281,17 @@ Language keywords
 /* TO_DO: Define the list of keywords */
 static string keywordTable[KWT_SIZE] = {
 	"var",		/* KW00 */
-//	"code",		/* KW01 */
-	"int32",		/* KW02 */
-	"float32",		/* KW03 */
-	"string",	/* KW04 */
-	"if",		/* KW05 */
-	"then",		/* KW06 */
-	"else",		/* KW07 */
-	"while",	/* KW08 */
-	"do",		/* KW09 */
-	"func",
-	"Print",
-	"Println"
+	"int32",	/* KW01 */
+	"float32",	/* KW02 */
+	"string",	/* KW03 */
+	"if",		/* KW04 */
+	"then",		/* KW05 */
+	"else",		/* KW06 */
+	"while",	/* KW07 */
+	"do",		/* KW08 */
+	"func",		/* KW09 */
+	"println",	/* KW10 */
+	"print",	/* KW11 */
 };
 
 /* NEW SECTION: About indentation */

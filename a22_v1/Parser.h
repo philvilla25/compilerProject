@@ -73,7 +73,7 @@ extern Token			tokenizer(amber_void);
 extern string			keywordTable[KWT_SIZE];
 static int32			syntaxErrorNumber = 0;
 
-#define LANG_WRTE		"Println"
+#define LANG_WRTE		"println"
 #define LANG_READ		"input"
 #define LANG_MAIN		"main"
 
@@ -82,16 +82,19 @@ static int32			syntaxErrorNumber = 0;
 /* Constants */
 enum KEYWORDS {
 	NO_ATTR = -1,
-	KW_data,
-	KW_code,
-	KW_int,
-	KW_real,
-	KW_string,
-	KW_if,
-	KW_then,
-	KW_else,
-	KW_while,
-	KW_do
+	KW_var,		/* KW00 */
+	KW_code,		/* NEED TO REMOVE THIS */
+	KW_int32,	/* KW01 */
+	KW_float32,	/* KW02 */
+	KW_string,	/* KW03 */
+	KW_if,		/* KW04 */
+	KW_then,	/* KW05 */
+	KW_else,	/* KW06 */
+	KW_while,	/* KW07 */
+	KW_do,		/* KW08 */
+	KW_func,	/* KW09 */
+	KW_println,	/* KW10 */
+	KW_print	/* KW11 */
 };
 
 /* TO_DO: Define the number of BNF rules */

@@ -239,7 +239,7 @@ amber_void dataSession() {
 	case CMT_T:
 		comment();
 	default:
-		matchToken(KW_T, KW_data);
+		matchToken(KW_T, KW_var);
 		matchToken(LBR_T, NO_ATTR);
 		optVarListDeclarations();
 		matchToken(RBR_T, NO_ATTR);
