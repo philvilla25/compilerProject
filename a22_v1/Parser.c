@@ -276,7 +276,7 @@ amber_void codeSession() {
 	case CMT_T:
 		comment();
 	default:
-		matchToken(KW_T, KW_code);
+		//matchToken(KW_T, KW_code);
 		matchToken(LBR_T, NO_ATTR);
 		optionalStatements();
 		matchToken(RBR_T, NO_ATTR);

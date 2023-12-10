@@ -314,7 +314,7 @@ int32 nextState(int32 state, rune c) {
  /* TO_DO: Use your column configuration */
 
  /* Adjust the logic to return next column in TT */
- /*    [A-z],   [0-9],     /,      *,       .,      SEOF,  other
+ /*    [A-z],   [0-9],     #,      *,       .,      SEOF,  other
 	    L(0),    D(1),     C(2),  S(3),    P(4),   Q(5),  O(6) */
 int32 nextClass(rune c) {
 	int32 val = -1;
@@ -323,15 +323,15 @@ int32 nextClass(rune c) {
 		val = 2;
 		break;
 	case COMM_SYM:
-		val = 3;
+		val = 2;
 		break;
 	case CHRCOL4:
 		val = 4;
 		break;
 	case CHARSEOF0:
-		val = 7;
+		val = 8;
 	case CHARSEOF255:
-		val = 5;
+		val = 8;
 		break;
 	default:
 		if (isalpha(c))
