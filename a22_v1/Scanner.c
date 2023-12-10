@@ -286,7 +286,7 @@ Token tokenizer(amber_void) {
  */
  /* TO_DO: Just change the datatypes */
 
-int32 nextState(int32 state, char c) {
+int32 nextState(int32 state, rune c) {
 	int32 col;
 	int32 next;
 	col = nextClass(c);
@@ -307,7 +307,7 @@ int32 nextState(int32 state, char c) {
  ************************************************************
  * Get Next Token Class
 	* Create a function to return the column number in the transition table:
-	* Considering an input char c, you can identify the "class".
+	* Considering an input rune c, you can identify the "class".
 	* For instance, a letter should return the column for letters, etc.
  ***********************************************************
  */
@@ -316,19 +316,20 @@ int32 nextState(int32 state, char c) {
  /* Adjust the logic to return next column in TT */
  /*    [A-z],   [0-9],     /,      *,       .,      SEOF,  other
 	    L(0),    D(1),     C(2),  S(3),    P(4),   Q(5),  O(6) */
-int32 nextClass(char c) {
+int32 nextClass(rune c) {
 	int32 val = -1;
 	switch (c) {
 	case CHRCOL2:
 		val = 2;
 		break;
-	case CHRCOL3:
+	case COMM_SYM:
 		val = 3;
 		break;
 	case CHRCOL4:
 		val = 4;
 		break;
 	case CHARSEOF0:
+		val = 7;
 	case CHARSEOF255:
 		val = 5;
 		break;
@@ -429,7 +430,7 @@ Token funcID(string lexeme) {
 		return currentToken;  // Return an empty token or handle appropriately
 	}
 
-	char lastch = lexeme[length];
+	rune lastch = lexeme[length];
 	int32 isID = AMBER_FALSE;
 
 	switch (lastch) {
