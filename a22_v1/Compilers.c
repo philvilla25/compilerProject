@@ -104,7 +104,7 @@ int32 main(int argc, char** argv) {
 		break;
 	case PGM_PARSER:
 		printf("%s%c%s", "\n[Option '", PGM_PARSER, "': Starting PARSER .....]\n\n");
-		main(argc, argv);
+		mainParser(argc, argv);
 		break;
 	/* TO_DO: Include later SCANNER (A22) and PARSER (A32) */
 	default:
