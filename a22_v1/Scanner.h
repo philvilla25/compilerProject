@@ -206,7 +206,7 @@ static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
 	{    FS,   FS,   FS,     FS,     FS,  FS,  FS,	  FS   },	// S3: ASWR (KEY)
 	{     4,    4,    4,      4,      5,   4,  4,	  ESWR    },	// S4: NOAS
 	{    FS,   FS,   FS,     FS,     FS,  FS,  FS,	  FS   },	// S5: ASNR (SL)
-	{     6,    6,    6,      7,      6,   6,  6,	  ESWR   },	// S6: NOAS
+	{     6,    6,    7,      6,      6,   6,  6,	  ESWR   },	// S6: NOAS
 	{     7,    7,    7,      8,      7,   7,  7,	  FS   },	// S7: ASNR (COM)
 	{     7,    7,    9,      7,      7,   7,  7,      FS   },	// S8: ASNR (ES)
 	{    FS,   FS,   FS,     FS,     FS,  FS,  FS,     FS  }  // S9: FSNR (ER)
