@@ -339,11 +339,24 @@ amber_void statements() {
 amber_void statementsPrime() {
 	psData.parsHistogram[BNF_statementsPrime]++;
 	switch (lookahead.code) {
+	case CMT_T:
+	statements();
+	break;
 	case MNID_T:
 		if (strncmp(lookahead.attribute.idLexeme, LANG_WRTE, 6) == 0) {
 			statements();
 			break;
 		}
+		else if (strncmp(lookahead.attribute.idLexeme, LANG_READ, 6) == 0) {
+			statements();
+		}
+		break;
+	case KW_T:
+		statements();
+		break;
+	case VID_T:
+		statements();
+		break;
 	default:
 		; //empty string
 	}
@@ -361,8 +374,26 @@ amber_void statementsPrime() {
 amber_void statement() {
 	psData.parsHistogram[BNF_statement]++;
 	switch (lookahead.code) {
+	case CMT_T:
+		comment();
+		break;
 	case KW_T:
 		switch (lookahead.attribute.codeType) {
+		case 5: // if 
+			selectionStatement();
+			break;
+		case 11: // for 
+			iterationStatement();
+			break;
+		case 7: // var
+			matchToken(KW_T, KW_var);
+		//	matchToken(VID_T, NO_ATTR);
+			switch (lookahead.attribute.codeType) {
+			case 2: // int
+			case 3: // float64
+			case 4: // string
+				varDeclarationStatement();
+			}
 		default:
 			printError();
 		}
@@ -371,6 +402,15 @@ amber_void statement() {
 		if (strncmp(lookahead.attribute.idLexeme, LANG_WRTE, 6) == 0) {
 			outputStatement();
 		}
+		else if (strncmp(lookahead.attribute.idLexeme, LANG_READ, 6) == 0) {
+			inputStatement();
+		}
+		break;
+	case VID_T:
+		printf("VID = %s\n", lookahead.attribute.idLexeme);
+		matchToken(VID_T, NO_ATTR);
+		matchToken(ASN_T, NO_ATTR);
+		assignmentStatement();
 		break;
 	default:
 		printError();
@@ -397,6 +437,38 @@ amber_void outputStatement() {
 
 /*
  ************************************************************
+ * Declaration Statement
+ * BNF: <selection statement> -> fmt.Println (<output statementPrime>);
+ * FIRST(<output statement>) = { MNID_T(print&) }
+ ***********************************************************
+ */
+void varDeclarationStatement() {
+	psData.parsHistogram[BNF_varDeclarationStatement]++;
+	switch (lookahead.code) {
+	case KW_T:
+		if (lookahead.attribute.codeType == 2) { //int
+			matchToken(KW_T, KW_int32);
+		}
+		else if (lookahead.attribute.codeType == 4) { // string
+			matchToken(KW_T, KW_string);
+		}
+		else if (lookahead.attribute.codeType == 3) { //float
+			matchToken(KW_T, KW_float32);
+		}
+		else {
+			printError();  // Handle the error case
+		}
+		break;
+	default:
+		printError();  // Handle the error case
+	}
+	printf("%s%s\n", STR_LANGNAME, ": Declaration statement parsed");
+}
+
+
+
+/*
+ ************************************************************
  * Output Variable List
  * BNF: <opt_variable list> -> <variable list> | ϵ
  * FIRST(<opt_variable_list>) = { IVID_T, FVID_T, SVID_T, ϵ }
@@ -408,6 +480,15 @@ amber_void outputVariableList() {
 	case STR_T:
 		matchToken(STR_T, NO_ATTR);
 		break;
+	case INL_T:  // start of my code
+		matchToken(INL_T, NO_ATTR);
+		break;
+	//case FPL_T:
+	//	matchToken(FPL_T, NO_ATTR);
+	//	break;
+	case VID_T:
+		matchToken(VID_T, NO_ATTR);
+		break; //end of my code
 	default:
 		;
 	}
@@ -437,4 +518,54 @@ amber_void printBNFData(ParserData psData) {
 			printf("%s%s%s%d%s", "Token[", BNFStrTable[cont], "]=", psData.parsHistogram[cont], "\n");
 	}
 	printf("----------------------------------\n");
+}
+
+void selectionStatement() {
+	psData.parsHistogram[BNF_selectionStatement]++;
+	matchToken(KW_T, KW_if);
+	//matchToken(LPR_T, NO_ATTR);
+	condition(); //parametes
+	//matchToken(RPR_T, NO_ATTR);
+	matchToken(LBR_T, NO_ATTR);
+	statements();// more code
+	matchToken(RBR_T, NO_ATTR);
+	matchToken(KW_T, KW_else);
+	matchToken(LBR_T, NO_ATTR);
+	statements();// more code
+	matchToken(RBR_T, NO_ATTR);
+	printf("%s%s\n", STR_LANGNAME, ": Selection statement parsed");
+}
+
+
+/*
+ ************************************************************
+ * Selection Statement
+ * BNF: <selection statement> -> fmt.Println (<output statementPrime>);
+ * FIRST(<output statement>) = { MNID_T(print&) }
+ ***********************************************************
+ */
+void iterationStatement() {
+	psData.parsHistogram[BNF_iterationStatement]++;
+	matchToken(KW_T, KW_for);
+	condition();// condition
+	matchToken(LBR_T, NO_ATTR);
+	statements();// more code
+	matchToken(RBR_T, NO_ATTR);
+	printf("%s%s\n", STR_LANGNAME, ": Iteration statement parsed");
+}
+
+/*
+ ************************************************************
+ * Input Statement
+ * BNF: <selection statement> -> fmt.Println (<output statementPrime>);
+ * FIRST(<output statement>) = { MNID_T(fmt.SCAN&) }
+ ***********************************************************
+ */
+void inputStatement() {
+	psData.parsHistogram[BNF_inputStatement]++;
+	matchToken(MNID_T, NO_ATTR);
+	matchToken(LPR_T, NO_ATTR);
+	outputVariableList();
+	matchToken(RPR_T, NO_ATTR);
+	printf("%s%s\n", STR_LANGNAME, ": Input statement parsed");
 }

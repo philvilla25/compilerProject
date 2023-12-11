@@ -69,17 +69,17 @@
 #define VID_LEN 20  /* variable identifier length */
 #define ERR_LEN 40  /* error message length */
 #define NUM_LEN 5   /* maximum number of digits for IL */
-
 #define RTE_CODE 1  /* Value for run-time error */
 
 /* TO_DO: Define the number of tokens */
-#define NUM_TOKENS 13
+#define NUM_TOKENS 18
 
 /* TO_DO: Define Token codes - Create your token classes */
 enum TOKENS {
 	ERR_T,		/*  0: Error token */
 	MNID_T,		/*  1: Method name identifier token (start: &) */
 	INL_T,		/*  2: Integer literal token */
+	FPL_T,
 	STR_T,		/*  3: String literal token */
 	LPR_T,		/*  4: Left parenthesis token */
 	RPR_T,		/*  5: Right parenthesis token */
@@ -90,7 +90,11 @@ enum TOKENS {
 	RTE_T,		/* 10: Run-time error token */
 	SEOF_T,		/* 11: Source end-of-file token */
 	CMT_T,		/* 12: Comment token */
-	//STAR_T		/* 13. Star for comment*/
+	VID_T,		/* 13. Star for comment*/
+	REL_T,		/* 14. Star for comment*/
+	ASN_T,		/* 15. Star for comment*/
+	ART_T		/* 16. Star for comment*/
+	
 };
 
 /* TO_DO: Define the list of keywords */
@@ -98,6 +102,7 @@ static string tokenStrTable[NUM_TOKENS] = {
 	"ERR_T",
 	"MNID_T",
 	"INL_T",
+	"FPL_T",
 	"STR_T",
 	"LPR_T",
 	"RPR_T",
@@ -107,7 +112,11 @@ static string tokenStrTable[NUM_TOKENS] = {
 	"EOS_T",
 	"RTE_T",
 	"SEOF_T",
-	"CMT_T"
+	"CMT_T",
+	"VID_T",
+	"REL_T",
+	"ASN_T",
+	"ART_T",
 	//"STAR_T"
 };
 

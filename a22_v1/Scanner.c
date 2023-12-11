@@ -191,8 +191,18 @@ Token tokenizer(amber_void) {
 			scData.scanHistogram[currentToken.code]++;
 			return currentToken;
 		case '=':
-			currentToken.attribute.relationalOperator = OP_EQ;
-			scData.scanHistogram[currentToken.attribute.logicalOperator]++;
+			// Check for '=='
+			c = readerGetChar(sourceBuffer);
+			if (c == '=') {
+				currentToken.code = REL_T;
+				currentToken.attribute.relationalOperator = OP_EQ;
+				scData.scanHistogram[currentToken.attribute.relationalOperator]++;
+			}
+			else {
+				// Handle '=' as a separate case
+				currentToken.code = ASN_T;
+				scData.scanHistogram[currentToken.code]++;
+			}
 			return currentToken;
 		case '%':
 			currentToken.attribute.logicalOperator = OP_DIV;
@@ -587,7 +597,7 @@ amber_void printToken(Token t) {
 		printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
 	case VID_T:
-		printf("VID_T\t\t%s\n", t.attribute.vidLexeme);
+		printf("VID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
 	case STR_T:
 		printf("STR_T\t\t%d\t ", (int32)t.attribute.codeType);
