@@ -192,7 +192,7 @@ Token tokenizer(amber_void) {
 			return currentToken;
 		case '=':
 			// Check for '=='
-			c = readerGetChar(sourceBuffer);
+			c = readerGetChar (sourceBuffer);
 			if (c == '=') {
 				currentToken.code = REL_T;
 				currentToken.attribute.relationalOperator = OP_EQ;
@@ -202,6 +202,22 @@ Token tokenizer(amber_void) {
 				// Handle '=' as a separate case
 				currentToken.code = ASN_T;
 				scData.scanHistogram[currentToken.code]++;
+			}
+			return currentToken;
+		case '!':
+			// Check for '!='
+			c = readerGetChar(sourceBuffer);
+			if (c == '=') {
+				currentToken.code = REL_T;
+				currentToken.attribute.relationalOperator = OP_NE;
+				scData.scanHistogram[currentToken.code]++;
+			}
+			else {
+				// Handle '!' as a separate case
+				currentToken.code = LOG_T;
+				currentToken.attribute.logicalOperator = OP_NOT;
+				scData.scanHistogram[currentToken.code]++;
+				return currentToken;
 			}
 			return currentToken;
 		case '%':
@@ -603,6 +619,18 @@ amber_void printToken(Token t) {
 		printf("STR_T\t\t%d\t ", (int32)t.attribute.codeType);
 		printf("%s\n", readerGetContent(stringLiteralTable, (int32)t.attribute.codeType));
 		break;
+	case INL_T:
+		printf("INL_T\t\t%d\n", t.attribute.intValue);
+		break;
+	case FPL_T:
+		printf("FPL_T\t\t%f\n", t.attribute.floatValue);
+		break;
+	case ART_T:
+		printf("ART_T\t\t%d\t\n", t.attribute.arithmeticOperator);
+		break;
+	case ASN_T:
+		printf("ASN_T\n");
+		break;
 	case LPR_T:
 		printf("LPR_T\n");
 		break;
@@ -621,11 +649,14 @@ amber_void printToken(Token t) {
 	case CMT_T:
 		printf("CMT_T\n");
 		break;
+	case REL_T:
+		printf("REL_T\n");
+		break;
+	case LOG_T:
+		printf("LOG_T\n");
+		break;
 	case EOS_T:
 		printf("EOS_T\n");
-		break;
-	case INL_T:
-		printf("INL_T\n");
 		break;
 	default:
 		printf("Scanner error: invalid token code: %d\n", t.code);

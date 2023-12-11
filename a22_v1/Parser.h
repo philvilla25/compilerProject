@@ -156,7 +156,11 @@ static string BNFStrTable[NUM_BNF_RULES] = {
 	"BNF_program",
 	"BNF_statement",
 	"BNF_statements",
-	"BNF_statementsPrime"
+	"BNF_statementsPrime",
+	"BNF_iterationStatement",
+	"BNF_inputStatement",
+	"BNF_varDeclarationStatement",
+	"BNF_assignmentStatement"
 };
 
 /* TO_DO: Place ALL non-terminal function declarations */
@@ -171,5 +175,12 @@ amber_void program();
 amber_void statement();
 amber_void statements();
 amber_void statementsPrime();
-
+amber_void assignmentStatement();
+amber_void varDeclarationStatement();
+amber_void inputStatement();
+amber_void iterationStatement();
+amber_void selectionStatement();
+amber_void expression();
+amber_void condition();
+amber_void term();
 #endif

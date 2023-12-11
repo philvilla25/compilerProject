@@ -72,7 +72,7 @@
 #define RTE_CODE 1  /* Value for run-time error */
 
 /* TO_DO: Define the number of tokens */
-#define NUM_TOKENS 18
+#define NUM_TOKENS 19
 
 /* TO_DO: Define Token codes - Create your token classes */
 enum TOKENS {
@@ -93,8 +93,8 @@ enum TOKENS {
 	VID_T,		/* 13. Star for comment*/
 	REL_T,		/* 14. Star for comment*/
 	ASN_T,		/* 15. Star for comment*/
-	ART_T		/* 16. Star for comment*/
-	
+	ART_T,		/* 16. Star for comment*/
+	LOG_T
 };
 
 /* TO_DO: Define the list of keywords */
@@ -117,6 +117,7 @@ static string tokenStrTable[NUM_TOKENS] = {
 	"REL_T",
 	"ASN_T",
 	"ART_T",
+	"LOG_T"
 	//"STAR_T"
 };
 

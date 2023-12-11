@@ -387,7 +387,7 @@ amber_void statement() {
 			break;
 		case 7: // var
 			matchToken(KW_T, KW_var);
-		//	matchToken(VID_T, NO_ATTR);
+			//matchToken(VID_T, NO_ATTR);
 			switch (lookahead.attribute.codeType) {
 			case 2: // int
 			case 3: // float64
@@ -465,7 +465,19 @@ void varDeclarationStatement() {
 	printf("%s%s\n", STR_LANGNAME, ": Declaration statement parsed");
 }
 
-
+/*
+ ************************************************************
+ * Assignment  Statement
+ * BNF: <selection statement> -> fmt.Println (<output statementPrime>);
+ * FIRST(<output statement>) = { MNID_T(print&) }
+ ***********************************************************
+ */
+void assignmentStatement() {
+	psData.parsHistogram[BNF_assignmentStatement]++;
+	expression();
+	outputVariableList();
+	printf("%s%s\n", STR_LANGNAME, ": Assignment statement parsed");
+}
 
 /*
  ************************************************************
@@ -523,9 +535,9 @@ amber_void printBNFData(ParserData psData) {
 void selectionStatement() {
 	psData.parsHistogram[BNF_selectionStatement]++;
 	matchToken(KW_T, KW_if);
-	//matchToken(LPR_T, NO_ATTR);
+	matchToken(LPR_T, NO_ATTR);
 	condition(); //parametes
-	//matchToken(RPR_T, NO_ATTR);
+	matchToken(RPR_T, NO_ATTR);
 	matchToken(LBR_T, NO_ATTR);
 	statements();// more code
 	matchToken(RBR_T, NO_ATTR);
@@ -536,7 +548,57 @@ void selectionStatement() {
 	printf("%s%s\n", STR_LANGNAME, ": Selection statement parsed");
 }
 
+void condition() {
+	expression();
+	matchToken(REL_T, NO_ATTR);
+	expression();
+}
 
+// Function to parse and validate an expression
+void expression() {
+	if (lookahead.code == LPR_T) {
+		matchToken(LPR_T, NO_ATTR);
+		expression();
+		matchToken(RPR_T, NO_ATTR);
+	}
+	else {
+		term();
+		while (lookahead.code == ART_T || lookahead.code == LOG_T) {
+			if (lookahead.code == ART_T) {
+				matchToken(ART_T, NO_ATTR);
+				term();
+			}
+			else if (lookahead.code == LOG_T) {
+				matchToken(LOG_T, NO_ATTR);
+				term();
+			}
+			else if (lookahead.code == LPR_T) {
+				matchToken(LPR_T, NO_ATTR);
+				expression();
+				matchToken(RPR_T, NO_ATTR);
+			}
+			else {
+				printError();
+			}
+		}
+	}
+}
+
+// Function to parse and validate a factor
+void term() {
+	switch (lookahead.code) {
+	case VID_T:
+		matchToken(lookahead.code, NO_ATTR);
+		break;
+	case INL_T:
+	case FPL_T:
+	case STR_T:
+		matchToken(lookahead.code, NO_ATTR);
+		break;
+	default:
+		printError();
+	}
+}
 /*
  ************************************************************
  * Selection Statement
