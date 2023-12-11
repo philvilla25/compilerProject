@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2023
-* Author: TO_DO
+* Author: Philogene Villanueva, Tasfia Khan Aohana
 * Professors: Paulo Sousa
 ************************************************************
 =--------------------------------------------------------=
@@ -196,7 +196,7 @@ amber_void program() {
 		if (strncmp(lookahead.attribute.idLexeme, LANG_MAIN, 5) == 0) {
 			matchToken(MNID_T, NO_ATTR);
 			matchToken(LBR_T, NO_ATTR);
-			dataSession();
+			//dataSession();
 			codeSession();
 			matchToken(RBR_T, NO_ATTR);
 			break;
@@ -233,6 +233,7 @@ amber_void comment() {
  * FIRST(<program>)= {KW_T (KW_data)}.
  ***********************************************************
  */
+/*
 amber_void dataSession() {
 	psData.parsHistogram[BNF_dataSession]++;
 	switch (lookahead.code) {
@@ -246,6 +247,7 @@ amber_void dataSession() {
 		printf("%s%s\n", STR_LANGNAME, ": Data Session parsed");
 	}
 }
+*/
 
 /*
  ************************************************************

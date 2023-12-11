@@ -65,6 +65,7 @@
 /*#pragma warning(error:4001)*/	/* to enforce C89 comments - to make // comments an error */
 
 /* Constants */
+#define MNID_LEN 40 /* method identifier length */
 #define VID_LEN 20  /* variable identifier length */
 #define ERR_LEN 40  /* error message length */
 #define NUM_LEN 5   /* maximum number of digits for IL */
@@ -89,7 +90,7 @@ enum TOKENS {
 	RTE_T,		/* 10: Run-time error token */
 	SEOF_T,		/* 11: Source end-of-file token */
 	CMT_T,		/* 12: Comment token */
-	STAR_T		/* 13. Star for comment*/
+	//STAR_T		/* 13. Star for comment*/
 };
 
 /* TO_DO: Define the list of keywords */
@@ -107,7 +108,7 @@ static string tokenStrTable[NUM_TOKENS] = {
 	"RTE_T",
 	"SEOF_T",
 	"CMT_T"
-	"STAR_T"
+	//"STAR_T"
 };
 
 /* TO_DO: Operators token attributes */
@@ -173,7 +174,7 @@ typedef struct scannerData {
 //#define CHRCOL7 ''
 
 /* These constants will be used on VID / MID function */
-#define MNID_SUF '&'
+#define MNID_SUF ')'
 #define COMM_SYM '#'
 
 /* TO_DO: Error states and illegal state */
@@ -187,7 +188,7 @@ typedef struct scannerData {
 
 /* TO_DO: Transition table - type of states defined in separate table */
 static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
-/*    [A-z], [0-9],    #,    *,      ",   /',  other SEOF
+/*    [A-z], [0-9],    //,    *,      .,   /',  other SEOF
 	   L(0),  D(1),  S(2),  T(3),  P(4), Q(5), O(6)   O(7) */
 	{     1,  ESNR,   6,    ESNR,   4 ,  4,   ESNR,  ESWR },	// S0: NOAS
 	{     1,    3,    1,    ESNR,	  1,  1,   2,      3   },	// S1: NOAS
@@ -195,7 +196,7 @@ static int32 transitionTable[NUM_STATES][CHAR_CLASSES] = {
 	{    FS,   FS,   FS,     FS,     FS,  FS,  FS,	  FS   },	// S3: ASWR (KEY)
 	{     4,    4,    4,      4,      5,   4,  4,	  ESWR    },	// S4: NOAS
 	{    FS,   FS,   FS,     FS,     FS,  FS,  FS,	  FS   },	// S5: ASNR (SL)
-	{     6,    6,    7,      6,      6,   6,  6,	  ESWR   },	// S6: NOAS
+	{     6,    6,    6,      7,      6,   6,  6,	  ESWR   },	// S6: NOAS
 	{     7,    7,    7,      8,      7,   7,  7,	  FS   },	// S7: ASNR (COM)
 	{     7,    7,    9,      7,      7,   7,  7,      FS   },	// S8: ASNR (ES)
 	{    FS,   FS,   FS,     FS,     FS,  FS,  FS,     FS  }  // S9: FSNR (ER)
@@ -276,22 +277,24 @@ Language keywords
 */
 
 /* TO_DO: Define the number of Keywords from the language */
-#define KWT_SIZE 12
+#define KWT_SIZE 14
 
 /* TO_DO: Define the list of keywords */
 static string keywordTable[KWT_SIZE] = {
-	"var",		/* KW00 */
-	"int32",	/* KW01 */
-	"float32",	/* KW02 */
-	"string",	/* KW03 */
-	"if",		/* KW04 */
-	"then",		/* KW05 */
-	"else",		/* KW06 */
-	"while",	/* KW07 */
-	"do",		/* KW08 */
-	"func",		/* KW09 */
-	"println",	/* KW10 */
-	"print",	/* KW11 */
+	"var",			/* KW00 */
+	"int32",		/* KW01 */
+	"float32",		/* KW02 */
+	"string",		/* KW03 */
+	"if",			/* KW04 */
+	"then",			/* KW05 */
+	"else",			/* KW06 */
+	"package",		/* KW07 */
+	"import",		/* KW08 */
+	"main",			/* KW09 */
+	"for",			/* KW10 */
+	"func",			/* KW11 */
+	"fmt.Println",	/* KW12 */
+	"fmt.Scanln"	/* KW13 */
 };
 
 /* NEW SECTION: About indentation */

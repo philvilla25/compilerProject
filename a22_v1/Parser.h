@@ -2,7 +2,7 @@
 ************************************************************
 * COMPILERS COURSE - Algonquin College
 * Code version: Fall, 2023
-* Author: TO_DO
+* Author: Philogene Villanueva, Tasfia Khan Aohana
 * Professors: Paulo Sousa
 ************************************************************
 =--------------------------------------------------------=
@@ -73,9 +73,11 @@ extern Token			tokenizer(amber_void);
 extern string			keywordTable[KWT_SIZE];
 static int32			syntaxErrorNumber = 0;
 
-#define LANG_WRTE		"println"
-#define LANG_READ		"input"
-#define LANG_MAIN		"main"
+#define LANG_PCKG		"package"
+#define LANG_IMPT		"import"
+#define LANG_WRTE		"fmt.Println"
+#define LANG_READ		"fmt.Scanln"
+#define LANG_MAIN		"main()"
 
 /* TO_DO: Create ALL constants for keywords (sequence given in table.h) */
 
@@ -83,22 +85,23 @@ static int32			syntaxErrorNumber = 0;
 enum KEYWORDS {
 	NO_ATTR = -1,
 	KW_var,		/* KW00 */
-	KW_code,		/* NEED TO REMOVE THIS */
 	KW_int32,	/* KW01 */
 	KW_float32,	/* KW02 */
 	KW_string,	/* KW03 */
 	KW_if,		/* KW04 */
 	KW_then,	/* KW05 */
 	KW_else,	/* KW06 */
-	KW_while,	/* KW07 */
-	KW_do,		/* KW08 */
-	KW_func,	/* KW09 */
-	KW_println,	/* KW10 */
-	KW_print	/* KW11 */
+	KW_package,	/* KW07 */
+	KW_import,	/* KW08 */
+	KW_main,	/* KW09 */
+	KW_for,		/* KW10 */
+	KW_func,	/* KW11 */
+	KW_println,	/* KW12 */
+	KW_scanln	/* KW13 */
 };
 
 /* TO_DO: Define the number of BNF rules */
-#define NUM_BNF_RULES 12
+#define NUM_BNF_RULES 17
 
 /* Parser */
 typedef struct parserData {
@@ -123,7 +126,7 @@ enum BNF_RULES {
 	BNF_error,										/*  0: Error token */
 	BNF_codeSession,								/*  1 */
 	BNF_comment,									/*  2 */
-	BNF_dataSession,								/*  3 */
+//	BNF_dataSession,								/*  3 */
 	BNF_optVarListDeclarations,						/*  4 */
 	BNF_optionalStatements,							/*  5 */
 	BNF_outputStatement,							/*  6 */
@@ -131,7 +134,12 @@ enum BNF_RULES {
 	BNF_program,									/*  8 */
 	BNF_statement,									/*  9 */
 	BNF_statements,									/* 10 */
-	BNF_statementsPrime								/* 11 */
+	BNF_statementsPrime,								/* 11 */
+	BNF_selectionStatement,
+	BNF_iterationStatement,
+	BNF_inputStatement,
+	BNF_varDeclarationStatement,
+	BNF_assignmentStatement						/* 17 */
 };
 
 
@@ -154,7 +162,7 @@ static string BNFStrTable[NUM_BNF_RULES] = {
 /* TO_DO: Place ALL non-terminal function declarations */
 amber_void codeSession();
 amber_void comment();
-amber_void dataSession();
+//amber_void dataSession();
 amber_void optVarListDeclarations();
 amber_void optionalStatements();
 amber_void outputStatement();

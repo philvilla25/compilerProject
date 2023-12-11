@@ -586,6 +586,9 @@ amber_void printToken(Token t) {
 	case MNID_T:
 		printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
 		break;
+	case VID_T:
+		printf("VID_T\t\t%s\n", t.attribute.vidLexeme);
+		break;
 	case STR_T:
 		printf("STR_T\t\t%d\t ", (int32)t.attribute.codeType);
 		printf("%s\n", readerGetContent(stringLiteralTable, (int32)t.attribute.codeType));
